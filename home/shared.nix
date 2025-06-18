@@ -58,6 +58,16 @@
   };
   programs.zsh = {
     enable = true;
+    syntaxHighlighting.enable = true;
+    autosuggestion.enable = true;
+    enableCompletion = true;
+    oh-my-zsh = {
+      enable = true;
+      plugins = [
+        "git"
+      ];
+      theme = "robbyrussell";
+    };
     shellAliases = {
       bubu = "brew update && brew upgrade";
       pn = "pnpm";
@@ -84,15 +94,7 @@
       'page faults from disk:     %F'$'\n'\
       'other page faults:         %R'
     '';
-    syntaxHighlighting.enable = true;
-    autosuggestion.enable = true;
-    oh-my-zsh = {
-      enable = true;
-      plugins = [
-        "git"
-      ];
-      theme = "robbyrussell";
-    };
+
   };
 
   programs.direnv = {
