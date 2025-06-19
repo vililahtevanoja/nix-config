@@ -1,5 +1,12 @@
-{ pkgs, ... }:
 {
+  pkgs,
+  unstable,
+  lib,
+  ...
+}:
+{
+  fonts.fontconfig.enable = true;
+
   home.packages = with pkgs; [
     # general tools
     git
@@ -11,6 +18,11 @@
     fzf
     btop
     direnv
+    hyperfine
+    zstd
+
+    # database
+    pgcli
 
     # containers
     docker
@@ -18,14 +30,19 @@
 
     # shell
     oh-my-zsh
+    zsh-powerlevel10k
 
     # languages
     go
+
+    # nix
+    nixfmt-rfc-style
   ];
+
   programs.git = {
     enable = true;
     extraConfig = {
-      user =  {
+      user = {
         name = "Vili Lähtevänoja";
         email = "vili.lahtevanoja@gmail.com";
       };
@@ -53,7 +70,8 @@
       };
       merge.conflictstyle = "zdiff3";
       gc.writecommitGraph = true;
-      alias."local-branches" = "!git branch --format '%(refname:short) %(upstream:short)' | awk '{if (!$2) print $1;}'";
+      alias."local-branches" =
+        "!git branch --format '%(refname:short) %(upstream:short)' | awk '{if (!$2) print $1;}'";
     };
   };
   programs.zsh = {
@@ -66,35 +84,46 @@
       plugins = [
         "git"
       ];
-      theme = "robbyrussell";
     };
     shellAliases = {
       bubu = "brew update && brew upgrade";
       pn = "pnpm";
       vim = "nvim";
-      reload = "source ~/.zshrc";
-      zshrc = "nvim ~/.zshrc; reload";
       weather = "curl 'wttr.in?M'";
       kalasatama = "curl 'wttr.in/~Kalasatama?M'";
       ".." = "cd ..";
-      "..." = "cd ../.."; 
+      "..." = "cd ../..";
     };
-    initContent = ''
-      if [[ `uname` == Darwin ]]; then
-        MAX_MEMORY_UNITS=KB
-      else
-        MAX_MEMORY_UNITS=MB
-      fi
+    initContent = lib.mkMerge [
+      # Powerlevel10k instant prompt
+      ''
+        # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+        # Initialization code that may require console input (password prompts, [y/n]
+        # confirmations, etc.) must go above this block; everything else may go below.
+        if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
+          source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
+        fi
+      ''
+      # Powerlevel10k instantiation
+      "[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh"
+      "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme"
+      # Prettified `time` command output
+      ''
+        if [[ `uname` == Darwin ]]; then
+          MAX_MEMORY_UNITS=KB
+        else
+          MAX_MEMORY_UNITS=MB
+        fi
 
-      TIMEFMT='%J   %U  user %S system %P cpu %*E total'$'\n'\
-      'avg shared (code):         %X KB'$'\n'\
-      'avg unshared (data/stack): %D KB'$'\n'\
-      'total (sum):               %K KB'$'\n'\
-      'max memory:                %M '$MAX_MEMORY_UNITS''$'\n'\
-      'page faults from disk:     %F'$'\n'\
-      'other page faults:         %R'
-    '';
-
+        TIMEFMT='%J   %U  user %S system %P cpu %*E total'$'\n'\
+        'avg shared (code):         %X KB'$'\n'\
+        'avg unshared (data/stack): %D KB'$'\n'\
+        'total (sum):               %K KB'$'\n'\
+        'max memory:                %M '$MAX_MEMORY_UNITS''$'\n'\
+        'page faults from disk:     %F'$'\n'\
+        'other page faults:         %R'
+      ''
+    ];
   };
 
   programs.direnv = {
@@ -111,4 +140,5 @@
     enable = true;
     defaultEditor = true;
   };
+
 }
