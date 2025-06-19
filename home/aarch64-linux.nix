@@ -1,5 +1,6 @@
+{ pkgs, ... }:
 {
-  home.packages = with pgkgs; [
+  home.packages = with pkgs; [
 
   ];
 

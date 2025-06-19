@@ -39,5 +39,25 @@
           }
         ];
       };
+      homeConfigurations.desktop-wsl = home-manager.lib.homeManagerConfiguration {
+        pkgs = unstable.legacyPackages.x86_64-linux;
+        modules = [
+          ./home/shared.nix
+          ./home/shared-linux.nix
+          ./home/x86_64-linux.nix
+          {
+            programs.home-manager.enable = true;
+
+            programs.zsh.enable = true;
+            programs.git.enable = true;
+
+            home = {
+              username = "vili";
+              homeDirectory = "/home/vili";
+              stateVersion = "25.05"; # Please read the comment before changing.
+            };
+          }
+        ];
+      };
     };
 }
