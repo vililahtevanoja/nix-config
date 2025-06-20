@@ -59,5 +59,25 @@
           }
         ];
       };
+      homeConfigurations.raspberry-pi = home-manager.lib.homeManagerConfiguration {
+        pkgs = unstable.legacyPackages.aarch64-linux;
+        modules = [
+          ./home/shared.nix
+          ./home/shared-linux.nix
+          ./home/aarch64-linux.nix
+          {
+            programs.home-manager.enable = true;
+
+            programs.zsh.enable = true;
+            programs.git.enable = true;
+
+            home = {
+              username = "vili";
+              homeDirectory = "/home/vili";
+              stateVersion = "25.05"; # Please read the comment before changing.
+            };
+          }
+        ];
+      };
     };
 }
