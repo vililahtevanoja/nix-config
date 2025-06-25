@@ -37,6 +37,7 @@
 
     # nix
     nixfmt-rfc-style
+    nh
   ];
 
   programs.git = {
