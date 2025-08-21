@@ -38,6 +38,9 @@
     # nix
     nixfmt-rfc-style
     nh
+
+    # zsh
+    zsh-fzf-tab
   ];
 
   programs.git = {
@@ -83,6 +86,7 @@
     oh-my-zsh = {
       enable = true;
       plugins = [
+        "aws"
         "git"
         "fzf"
         "direnv"
@@ -97,6 +101,7 @@
       ".." = "cd ..";
       "..." = "cd ../..";
     };
+    # setup .zshrc contents
     initContent = lib.mkMerge [
       # Powerlevel10k instant prompt
       ''
@@ -126,6 +131,7 @@
         'page faults from disk:     %F'$'\n'\
         'other page faults:         %R'
       ''
+      "source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh"
     ];
   };
 
@@ -133,6 +139,11 @@
     enable = true;
     enableZshIntegration = true;
     nix-direnv.enable = true;
+  };
+
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
   };
 
   programs.zoxide = {
