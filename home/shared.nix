@@ -22,7 +22,7 @@
     zstd
 
     # database
-    pgcli
+    # pgcli broken for now
 
     # containers
     docker
