@@ -22,7 +22,7 @@
     zstd
 
     # database
-    # pgcli broken for now
+    pgcli
 
     # containers
     docker
@@ -161,5 +161,4 @@
       set smartindent
     '';
   };
-
 }
