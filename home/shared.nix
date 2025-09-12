@@ -20,6 +20,7 @@
     direnv
     hyperfine
     zstd
+    parallel
 
     # database
     pgcli
