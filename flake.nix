@@ -25,7 +25,6 @@
         modules = [
           ./home/shared.nix
           ./home/aarch64-darwin.nix
-          ./home/local.nix
           {
             programs.home-manager.enable = true;
 
@@ -46,7 +45,6 @@
           ./home/shared.nix
           ./home/shared-linux.nix
           ./home/x86_64-linux.nix
-          ./home/local.nix
           {
             programs.home-manager.enable = true;
 
@@ -67,7 +65,6 @@
           ./home/shared.nix
           ./home/shared-linux.nix
           ./home/aarch64-linux.nix
-          ./home/local.nix
           {
             programs.home-manager.enable = true;
 

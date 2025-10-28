@@ -42,6 +42,9 @@
 
     # zsh
     zsh-fzf-tab
+
+    # LLM
+    amazon-q-cli
   ];
 
   programs.git = {
@@ -101,6 +104,7 @@
       kalasatama = "curl 'wttr.in/~Kalasatama?M'";
       ".." = "cd ..";
       "..." = "cd ../..";
+      q = "amazon-q";
     };
     # setup .zshrc contents
     initContent = lib.mkMerge [
