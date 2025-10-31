@@ -105,6 +105,7 @@
       ".." = "cd ..";
       "..." = "cd ../..";
       q = "amazon-q";
+      reload = ". ~/.zshrc";
     };
     # setup .zshrc contents
     initContent = lib.mkMerge [
@@ -137,6 +138,15 @@
         'other page faults:         %R'
       ''
       "source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh"
+      # setting to help with history
+      ''
+        export HISTSIZE=1000000
+        export SAVEHIST=1000000
+        setopt HIST_IGNORE_ALL_DUPS
+        setopt HIST_FIND_NO_DUPS
+        setopt HIST_REDUCE_BLANKS
+      ''
+      "ulimit -n 10240" # max is 10240
     ];
   };
 
