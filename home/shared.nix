@@ -88,7 +88,7 @@
     settings = {
       user = {
         name = "Vili Lähtevänoja";
-        email = "vili.lahtevanoja@gmail.com";
+        email = "3448875+vililahtevanoja@users.noreply.github.com";
       };
       ui = {
         editor = "nvim";
@@ -119,6 +119,11 @@
       "..." = "cd ../..";
       q = "amazon-q";
       reload = ". ~/.zshrc";
+      # jujutsu aliases
+      jd = "jj diff";
+      jlg = "jj log --stat";
+      jp = "jj git push";
+      jf = "jj git fetch";
     };
     # setup .zshrc contents
     initContent = lib.mkMerge [
