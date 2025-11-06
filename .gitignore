@@ -7,3 +7,6 @@ result-*
 
 # Ignore automatically generated direnv output
 .direnv
+
+# Jujutsu
+.jj

@@ -88,7 +88,7 @@
     settings = {
       user = {
         name = "Vili Lähtevänoja";
-        email = "vili.lahtevanoja@gmail.com";
+        email = "3448875+vililahtevanoja@users.noreply.github.com";
       };
       ui = {
         editor = "nvim";
