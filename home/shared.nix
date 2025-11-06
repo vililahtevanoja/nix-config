@@ -10,6 +10,7 @@
   home.packages = with pkgs; [
     # general tools
     git
+    jujutsu # git alternative
     jq
     yq
     curl
@@ -82,6 +83,18 @@
         "!git branch --format '%(refname:short) %(upstream:short)' | awk '{if (!$2) print $1;}'";
     };
   };
+  programs.jujutsu = {
+    enable = true;
+    settings = {
+      user = {
+        name = "Vili Lähtevänoja";
+        email = "vili.lahtevanoja@gmail.com";
+      };
+      ui = {
+        editor = "nvim";
+      };
+    };
+  };
   programs.zsh = {
     enable = true;
     syntaxHighlighting.enable = true;
@@ -147,6 +160,12 @@
         setopt HIST_REDUCE_BLANKS
       ''
       "ulimit -n 10240" # max is 10240
+      # jujutsu autocompletion
+      ''
+        autoload -U compinit
+        compinit
+        source <(jj util completion zsh)
+      ''
     ];
   };
 
