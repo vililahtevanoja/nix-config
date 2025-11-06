@@ -107,6 +107,7 @@
         "git"
         "fzf"
         "direnv"
+        "jj"
       ];
     };
     shellAliases = {
@@ -119,11 +120,6 @@
       "..." = "cd ../..";
       q = "amazon-q";
       reload = ". ~/.zshrc";
-      # jujutsu aliases
-      jd = "jj diff";
-      jlg = "jj log --stat";
-      jp = "jj git push";
-      jf = "jj git fetch";
     };
     # setup .zshrc contents
     initContent = lib.mkMerge [
