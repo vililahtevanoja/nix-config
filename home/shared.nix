@@ -11,6 +11,7 @@
     # general tools
     git
     jujutsu # git alternative
+    lazyjj # jujutsu TUI
     jq
     yq
     curl
