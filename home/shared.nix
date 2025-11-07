@@ -75,7 +75,7 @@
       fetch = {
         prune = true;
         pruneTags = true;
-        all = true;
+        all = false;
       };
       merge.conflictstyle = "zdiff3";
       gc.writecommitGraph = true;
