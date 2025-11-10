@@ -93,6 +93,7 @@
       };
       ui = {
         editor = "nvim";
+        default-command = "log";
       };
     };
   };
