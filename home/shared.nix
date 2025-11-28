@@ -37,6 +37,7 @@
 
     # languages
     go
+    rustup
 
     # nix
     nixfmt-rfc-style
