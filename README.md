@@ -12,15 +12,11 @@ Personal nix setup for different systems.
 
 ### Build
 
-```home-manager build --flake .#<profile>```
-->
-```home-manager build --flake .#vili-rmbp```
+```nh build .```
 
 ### Switch
 
-```home-manager switch --flake .#<profile>```
-->
-```home-manager switch --flake .#vili-rmbp```
+```nh switch .```
 
 ### Update flake
 
