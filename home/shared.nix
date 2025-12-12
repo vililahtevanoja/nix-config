@@ -4,6 +4,21 @@
   lib,
   ...
 }:
+
+let
+  starship-jj = pkgs.rustPlatform.buildRustPackage rec {
+    pname = "starship-jj";
+    version = "0.7.0"; # Check for latest version on crates.io
+
+    src = pkgs.fetchCrate {
+      inherit pname version;
+      hash = "sha256-oisz3V3UDHvmvbA7+t5j7waN9NykMUWGOpEB5EkmYew";
+    };
+
+    cargoHash = "sha256-NNeovW27YSK/fO2DjAsJqBvebd43usCw7ni47cgTth8";
+
+  };
+in
 {
   fonts.fontconfig.enable = true;
 
@@ -34,6 +49,7 @@
 
     # shell
     starship
+    starship-jj
 
     # languages
     go
@@ -166,8 +182,155 @@
     enableZshIntegration = true;
     settings = {
       direnv = {
-        disabled = false;
+        disabled = true; # pending https://github.com/starship/starship/pull/6389
+        loaded_msg = "[✓](green)";
+        allowed_msg = "[✓](green)";
       };
+      custom = {
+        jj = {
+          description = "The current jj status";
+          when = true;
+          ignore_timeout = true;
+          command = "prompt";
+          shell = [
+            "starship-jj"
+            "--ignore-working-copy"
+            "starship"
+          ];
+          use_stdin = false;
+          format = "$output";
+        };
+        git_status = {
+          when = "! jj --ignore-working-copy root";
+          command = "starship module git_status";
+          style = "";
+          description = "Only show git_status if we're not in a jj repo";
+        };
+        git_state = {
+          when = "! jj --ignore-working-copy root";
+          command = "starship module git_state";
+          style = "";
+          description = "Only show git_state if we're not in a jj repo";
+        };
+        git_commit = {
+          when = "! jj --ignore-working-copy root";
+          command = "starship module git_commit";
+          style = "";
+          description = "Only show git_commit if we're not in a jj repo";
+        };
+        git_metrics = {
+          when = "! jj --ignore-working-copy root";
+          command = "starship module git_metrics";
+          style = "";
+          description = "Only show git_metrics if we're not in a jj repo";
+        };
+        git_branch = {
+          when = "! jj --ignore-working-copy root";
+          command = "starship module git_branch";
+          style = "";
+          description = "Only show git_branch if we're not in a jj repo";
+        };
+
+      };
+      # based on https://starship.rs/config/#default-prompt-format
+      format = lib.concatStrings [
+        "$username"
+        "$hostname"
+        "$localip"
+        "$shlvl"
+        "$singularity"
+        "$kubernetes"
+        "$directory"
+        "$vcsh"
+        "$fossil_branch"
+        "$fossil_metrics"
+        "\${custom.jj}"
+        #"$git_branch"
+        "\${custom.git_commit}"
+        "\${custom.git_state}"
+        "\${custom.git_metrics}"
+        "\${custom.git_status}"
+        "$hg_branch"
+        "$hg_state"
+        "$pijul_channel"
+        "$docker_context"
+        "$package"
+        "$c"
+        "$cmake"
+        "$cobol"
+        "$daml"
+        "$dart"
+        "$deno"
+        "$dotnet"
+        "$elixir"
+        "$elm"
+        "$erlang"
+        "$fennel"
+        "$fortran"
+        "$gleam"
+        "$golang"
+        "$guix_shell"
+        "$haskell"
+        "$haxe"
+        "$helm"
+        "$java"
+        "$julia"
+        "$kotlin"
+        "$gradle"
+        "$lua"
+        "$nim"
+        "$nodejs"
+        "$ocaml"
+        "$opa"
+        "$perl"
+        "$php"
+        "$pulumi"
+        "$purescript"
+        "$python"
+        "$quarto"
+        "$raku"
+        "$rlang"
+        "$red"
+        "$ruby"
+        "$rust"
+        "$scala"
+        "$solidity"
+        "$swift"
+        "$terraform"
+        "$typst"
+        "$vlang"
+        "$vagrant"
+        "$zig"
+        "$buf"
+        "$nix_shell"
+        "$conda"
+        "$meson"
+        "$spack"
+        "$memory_usage"
+        "$aws"
+        "$gcloud"
+        "$openstack"
+        "$azure"
+        "$nats"
+        "$direnv"
+        "$env_var"
+        "$mise"
+        "$crystal"
+        "$custom"
+        "$sudo"
+        "$cmd_duration"
+        "$line_break"
+        "$jobs"
+        "$battery"
+        "$time"
+        "$status"
+        "$os"
+        "$container"
+        "$netns"
+        "$shell"
+        "$character"
+      ];
+
     };
   };
 
