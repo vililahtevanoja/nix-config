@@ -33,8 +33,7 @@
     lazydocker
 
     # shell
-    oh-my-zsh
-    zsh-powerlevel10k
+    starship
 
     # languages
     go
@@ -127,18 +126,6 @@
     };
     # setup .zshrc contents
     initContent = lib.mkMerge [
-      # Powerlevel10k instant prompt
-      ''
-        # Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
-        # Initialization code that may require console input (password prompts, [y/n]
-        # confirmations, etc.) must go above this block; everything else may go below.
-        if [[ -r "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh" ]]; then
-          source "''${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-''${(%):-%n}.zsh"
-        fi
-      ''
-      # Powerlevel10k instantiation
-      "[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh"
-      "source ${pkgs.zsh-powerlevel10k}/share/zsh-powerlevel10k/powerlevel10k.zsh-theme"
       # Prettified `time` command output
       ''
         if [[ `uname` == Darwin ]]; then
@@ -172,6 +159,16 @@
         source <(jj util completion zsh)
       ''
     ];
+  };
+
+  programs.starship = {
+    enable = true;
+    enableZshIntegration = true;
+    settings = {
+      direnv = {
+        disabled = false;
+      };
+    };
   };
 
   programs.direnv = {
