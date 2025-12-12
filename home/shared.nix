@@ -245,7 +245,7 @@ in
         #"$fossil_branch"
         #"$fossil_metrics"
         "\${custom.jj}"
-        "\${custom.git_branch]"
+        "\${custom.git_branch}"
         "\${custom.git_commit}"
         "\${custom.git_state}"
         "\${custom.git_metrics}"
