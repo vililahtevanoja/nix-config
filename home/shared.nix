@@ -30,6 +30,7 @@
     # containers
     docker
     docker-compose
+    lazydocker
 
     # shell
     oh-my-zsh
