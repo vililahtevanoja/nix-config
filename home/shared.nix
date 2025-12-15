@@ -206,31 +206,31 @@ in
           format = "$output";
         };
         git_status = {
-          when = "! jj --ignore-working-copy root";
+          when = "! ${starship-jj}/bin/starship-jj --ignore-working-copy root";
           command = "starship module git_status";
           style = "";
           description = "Only show git_status if we're not in a jj repo";
         };
         git_state = {
-          when = "! jj --ignore-working-copy root";
+          when = "! ${starship-jj}/bin/starship-jj --ignore-working-copy root";
           command = "starship module git_state";
           style = "";
           description = "Only show git_state if we're not in a jj repo";
         };
         git_commit = {
-          when = "! jj --ignore-working-copy root";
+          when = "! ${starship-jj}/bin/starship-jj --ignore-working-copy root";
           command = "starship module git_commit";
           style = "";
           description = "Only show git_commit if we're not in a jj repo";
         };
         git_metrics = {
-          when = "! jj --ignore-working-copy root";
+          when = "! ${starship-jj}/bin/starship-jj --ignore-working-copy root";
           command = "starship module git_metrics";
           style = "";
           description = "Only show git_metrics if we're not in a jj repo";
         };
         git_branch = {
-          when = "! jj --ignore-working-copy root";
+          when = "! ${starship-jj}/bin/starship-jj --ignore-working-copy root";
           command = "starship module git_branch";
           style = "";
           description = "Only show git_branch if we're not in a jj repo";
