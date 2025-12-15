@@ -177,7 +177,7 @@ in
       ''
         autoload -U compinit
         compinit
-        source <(jj util completion zsh)
+        source <(${pkgs.jujutsu}/bin/jj util completion zsh)
       ''
     ];
   };
