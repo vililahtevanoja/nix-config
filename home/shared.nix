@@ -138,7 +138,15 @@ in
       ".." = "cd ..";
       "..." = "cd ../..";
       q = "amazon-q";
+      zshrc = "less ~/.zshrc";
       reload = ". ~/.zshrc";
+    };
+    history = {
+      size = 1000000;
+      save = 1000000;
+      ignoreAllDups = true;
+      findNoDups = true;
+      ignoreSpace = true;
     };
     # setup .zshrc contents
     initContent = lib.mkMerge [
@@ -161,12 +169,9 @@ in
       "source ${pkgs.zsh-fzf-tab}/share/fzf-tab/fzf-tab.plugin.zsh"
       # setting to help with history
       ''
-        export HISTSIZE=1000000
-        export SAVEHIST=1000000
-        setopt HIST_IGNORE_ALL_DUPS
-        setopt HIST_FIND_NO_DUPS
         setopt HIST_REDUCE_BLANKS
       ''
+      # increase ulimit to reduce errors from too many open files
       "ulimit -n 10240" # max is 10240
       # jujutsu autocompletion
       ''
