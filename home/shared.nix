@@ -117,14 +117,16 @@ in
     syntaxHighlighting.enable = true;
     autosuggestion.enable = true;
     enableCompletion = true;
-    oh-my-zsh = {
+    antidote = {
       enable = true;
       plugins = [
-        "aws"
-        "git"
-        "fzf"
-        "direnv"
-        "jj"
+        ''
+          zsh-users/zsh-autosuggestions
+          ohmyzsh/ohmyzsh path:lib/git.zsh
+          ohmyzsh/ohmyzsh path:plugins/fzf
+          ohmyzsh/ohmyzsh path:plugins/direnv
+          zsh-users/zsh-syntax-highlighting
+        ''
       ];
     };
     shellAliases = {
