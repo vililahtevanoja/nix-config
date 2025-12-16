@@ -123,6 +123,7 @@ in
         ''
           zsh-users/zsh-autosuggestions
           ohmyzsh/ohmyzsh path:lib/git.zsh
+          ohmyzsh/ohmyzsh path:plugins/git
           ohmyzsh/ohmyzsh path:plugins/fzf
           ohmyzsh/ohmyzsh path:plugins/direnv
           zsh-users/zsh-syntax-highlighting
