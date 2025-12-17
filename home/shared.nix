@@ -242,7 +242,6 @@ in
       format = lib.concatStrings [
         "$username"
         "$hostname"
-        "$shlvl"
         "$kubernetes"
         "$directory"
         "\${custom.jj}"
@@ -269,7 +268,6 @@ in
         "$zig"
         "$buf"
         "$nix_shell"
-        "$memory_usage"
         "$aws"
         "$direnv"
         "$env_var"
