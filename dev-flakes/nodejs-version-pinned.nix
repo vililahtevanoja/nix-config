@@ -103,10 +103,8 @@
         };
       in
       rec {
-        flakedPkgs = pkgs;
-
         # enables use of `nix shell`
-        devShell = pkgs.mkShell {
+        devShells.default = pkgs.mkShell {
           # add things you want in your shell here
           buildInputs = with pkgs; [
             nodejs
