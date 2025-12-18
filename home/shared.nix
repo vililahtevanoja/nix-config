@@ -133,6 +133,8 @@ in
     shellAliases = {
       bubu = "brew update && brew upgrade";
       pn = "pnpm";
+      ll="ls -lh";
+      lla="ls -lha";
       vim = "nvim";
       weather = "curl 'wttr.in?M'";
       kalasatama = "curl 'wttr.in/~Kalasatama?M'";
