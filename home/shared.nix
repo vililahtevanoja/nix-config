@@ -116,6 +116,7 @@ in
     enable = true;
     syntaxHighlighting.enable = true;
     autosuggestion.enable = true;
+    historySubstringSearch.enable = true;
     enableCompletion = true;
     antidote = {
       enable = true;
