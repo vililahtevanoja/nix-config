@@ -36,6 +36,7 @@ in
     hyperfine
     zstd
     parallel
+    duf
 
     # database
     pgcli
