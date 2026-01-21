@@ -123,6 +123,7 @@ in
       enable = true;
       plugins = [
         ''
+          mattmc3/ez-compinit
           zsh-users/zsh-autosuggestions
           ohmyzsh/ohmyzsh path:lib/git.zsh
           ohmyzsh/ohmyzsh path:plugins/git
