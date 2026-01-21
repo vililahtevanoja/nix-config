@@ -55,7 +55,7 @@ in
     rustup
 
     # nix
-    nixfmt-rfc-style
+    nixfmt
     nh
 
     # zsh
