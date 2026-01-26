@@ -53,6 +53,7 @@ in
     # languages
     go
     rustup
+    nodejs_24
 
     # nix
     nixfmt
@@ -61,8 +62,6 @@ in
     # zsh
     zsh-fzf-tab
 
-    # LLM
-    amazon-q-cli
   ];
 
   programs.git = {
