@@ -110,6 +110,16 @@ in
         editor = "nvim";
         default-command = "log";
       };
+      aliases = {
+        tug = [
+          "bookmark"
+          "move"
+          "--from"
+          "heads(::@- & bookmarks())"
+          "--to"
+          "@-"
+        ];
+      };
     };
   };
   programs.zsh = {
@@ -135,8 +145,8 @@ in
     shellAliases = {
       bubu = "brew update && brew upgrade";
       pn = "pnpm";
-      ll="ls -lh";
-      lla="ls -lha";
+      ll = "ls -lh";
+      lla = "ls -lha";
       vim = "nvim";
       weather = "curl 'wttr.in?M'";
       kalasatama = "curl 'wttr.in/~Kalasatama?M'";
