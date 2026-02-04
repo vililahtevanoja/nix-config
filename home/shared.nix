@@ -95,8 +95,9 @@ in
       };
       merge.conflictstyle = "zdiff3";
       gc.writecommitGraph = true;
-      alias."local-branches" =
-        "!git branch --format '%(refname:short) %(upstream:short)' | awk '{if (!$2) print $1;}'";
+      alias = {
+        "local-branches" = "!git branch --format '%(refname:short) %(upstream:short)' | awk '{if (!$2) print $1;}'";
+      };
     };
   };
   programs.jujutsu = {
