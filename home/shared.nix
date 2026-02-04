@@ -147,7 +147,7 @@ in
       bubu = "brew update && brew upgrade";
       pn = "pnpm";
       ll = "ls -lh";
-      lla = "ls -lha";
+      l = "ls -alh";
       vim = "nvim";
       weather = "curl 'wttr.in?M'";
       kalasatama = "curl 'wttr.in/~Kalasatama?M'";
