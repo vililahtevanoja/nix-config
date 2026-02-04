@@ -153,7 +153,6 @@ in
       kalasatama = "curl 'wttr.in/~Kalasatama?M'";
       ".." = "cd ..";
       "..." = "cd ../..";
-      q = "amazon-q";
       zshrc = "less ~/.zshrc";
       reload = ". ~/.zshrc";
     };

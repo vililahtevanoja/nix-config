@@ -34,7 +34,6 @@
     colima
 
     # LLM
-    amazon-q-cli
     # kiro-cli # hold off for now
   ];
 
