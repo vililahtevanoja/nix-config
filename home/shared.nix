@@ -62,6 +62,9 @@ in
     # zsh
     zsh-fzf-tab
 
+    # LLM
+    opencode
+
   ];
 
   programs.git = {
