@@ -54,6 +54,7 @@ in
     go
     rustup
     nodejs_24
+    typescript-go
 
     # nix
     nixfmt
