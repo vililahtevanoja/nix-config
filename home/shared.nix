@@ -198,6 +198,11 @@ in
         compinit
         source <(${pkgs.jujutsu}/bin/jj util completion zsh)
       ''
+      # fix Home and End button behavior
+      ''
+        bindkey '^[[H' beginning-of-line
+        bindkey '^[[F' end-of-line
+      ''
     ];
   };
 
