@@ -44,6 +44,10 @@ in
     parallel
     duf
 
+    # VCS provider clients
+    gh
+    glab
+
     # database
     pgcli
 
