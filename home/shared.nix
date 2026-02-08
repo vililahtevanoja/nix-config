@@ -74,6 +74,7 @@ in
     codex
     claude-code
     github-copilot-cli
+    gemini-cli-bin
   ];
 
   programs.git = {
