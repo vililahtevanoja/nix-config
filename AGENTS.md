@@ -29,6 +29,7 @@ This file defines guidance for AI agents working in this repository.
 ## Testing/verification
 - Always run `nix flake check`.
 - Always run `nh home build .`.
+- Always run `nixfmt [FILES]` on changed files.
 - If Home Manager changes, suggest running `home-manager switch` for relevant profile.
 - If tests fail, inform the user of the error, investigate the cause, and suggest mitigations before proceeding.
 
