@@ -79,6 +79,10 @@ in
     claude-code
     github-copilot-cli
     gemini-cli-bin
+
+    # document tools
+    pandoc
+    typst
   ];
 
   programs.git = {
