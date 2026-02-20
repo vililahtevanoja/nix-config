@@ -44,6 +44,9 @@ in
     parallel
     duf
 
+    # multiplexing
+    zellij
+
     # VCS provider clients
     gh
     glab
@@ -352,5 +355,13 @@ in
       set expandtab
       set smartindent
     '';
+  };
+
+  programs.zellij = {
+    enable = true;
+    extraConfig = ''
+      default_shell "${pkgs.zsh}/bin/zsh"
+    '';
+    enableZshIntegration = true;
   };
 }
