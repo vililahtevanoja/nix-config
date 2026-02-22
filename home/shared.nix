@@ -359,6 +359,30 @@ in
 
   programs.zellij = {
     enable = true;
+    layouts = {
+      three-pane = ''
+        layout {
+            default_tab_template {
+                pane size=1 borderless=true {
+                    plugin location="zellij:tab-bar"
+                }
+                children
+                pane size=2 borderless=true {
+                    plugin location="zellij:status-bar"
+                }
+            }
+            tab {
+                pane split_direction="vertical" {
+                    pane
+                    pane split_direction="horizontal" {
+                        pane
+                        pane
+                    }
+                }
+            }
+        }
+      '';
+    };
     extraConfig = ''
       default_shell "${pkgs.zsh}/bin/zsh"
     '';
