@@ -385,6 +385,12 @@ in
     };
     extraConfig = ''
       default_shell "${pkgs.zsh}/bin/zsh"
+      keybinds {
+          unbind "Ctrl q"
+          shared_except "locked" {
+              bind "Ctrl Shift q" { Quit; }
+          }
+      }
     '';
     enableZshIntegration = true;
   };
