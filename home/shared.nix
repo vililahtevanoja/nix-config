@@ -44,6 +44,9 @@ in
     parallel
     duf
 
+    # reproducible development environments 
+    devenv
+
     # multiplexing
     zellij
 
