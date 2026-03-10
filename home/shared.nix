@@ -44,7 +44,7 @@ in
     parallel
     duf
 
-    # reproducible development environments 
+    # reproducible development environments
     devenv
 
     # multiplexing

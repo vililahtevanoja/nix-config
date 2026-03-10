@@ -5,7 +5,6 @@
     nixpkgs.url = "github:NixOS/nixpkgs";
     unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
-    devenv.url = "github:cachix/devenv/latest";
     home-manager.url = "github:nix-community/home-manager";
   };
 
