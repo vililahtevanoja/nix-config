@@ -227,6 +227,22 @@ in
         bindkey '^[[H' beginning-of-line
         bindkey '^[[F' end-of-line
       ''
+      # utility functions 
+      ''
+        # make directory and move there
+        mkcd() {
+          mkdir -p "$1" && cd "$1"
+        }
+        # find files fast
+        # e.g. `ff .md` to find markdown files
+        ff() {
+          rg --files -g "*$1*" -i
+        }
+        # view file tree
+        tre() {
+          tree -aC -I '.git|.jj|.turbo|.terraform|.idea|node_modules|vendor|__pycache__|cdk.out|coverage|.tanstack|temp|.cache|.direnv' --dirsfirst "$@" | less -FRNX
+        }
+      ''
     ];
   };
 
