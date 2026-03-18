@@ -71,6 +71,8 @@ in
     rustup
     nodejs_24
     typescript-go
+    python314
+    uv
 
     # nix
     nixfmt
