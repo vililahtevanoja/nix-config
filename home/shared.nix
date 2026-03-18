@@ -229,7 +229,7 @@ in
         bindkey '^[[H' beginning-of-line
         bindkey '^[[F' end-of-line
       ''
-      # utility functions 
+      # utility functions
       ''
         # make directory and move there
         mkcd() {
