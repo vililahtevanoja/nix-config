@@ -2,5 +2,25 @@
 codex_hooks = true
 
 [mcp_servers.nixos]
+enabled = true
 command = "uvx"
 args = ["mcp-nixos@2.3.0"]
+
+[mcp_servers.github]
+enabled = true
+url = "https://api.githubcopilot.com/mcp/"
+bearer_token_env_var = "GITHUB_PAT_TOKEN"
+enabled_tools = [
+  "list_issues",
+  "issue_read",
+  "search_issues",
+  "list_pull_requests",
+  "pull_request_read",
+  "search_pull_requests",
+  "list_commits",
+  "search_code",
+  "get_discussion",
+  "get_discussion_comments",
+  "list_discussion_categories",
+  "list_discussions",
+]

@@ -43,3 +43,8 @@ This file defines guidance for AI agents working in this repository.
 - Summarize changes and note impacted files.
 - Ask for confirmation before destructive actions.
 - When goals conflict or priorities are unclear, ask the user for guidance rather than making assumptions.
+
+## GitHub nixpkgs exploration
+
+- Use GitHub MCP to find information about the NixOS/nixpkgs repository
+- Dependency updates go through NixOS/nixpkgs pull requests with PR naming `<dependency name>: <old version> -> <new version>`
