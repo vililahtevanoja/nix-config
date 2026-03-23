@@ -11,3 +11,4 @@ result-*
 # Jujutsu
 .jj
 
+.envrc.local
