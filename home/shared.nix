@@ -25,16 +25,6 @@ in
       "claude-code"
       "github-copilot-cli"
     ];
-  nixpkgs.overlays = [
-    (_final: prev: {
-      # temporary until this hits unstable: https://nixpk.gs/pr-tracker.html?pr=502769
-      direnv = prev.direnv.overrideAttrs (old: {
-        postPatch = (old.postPatch or "") + ''
-          substituteInPlace GNUmakefile --replace-fail " -linkmode=external" ""
-        '';
-      });
-    })
-  ];
 
   home.packages = with pkgs; [
     # general tools
