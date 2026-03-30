@@ -16,6 +16,15 @@ let
     cargoHash = "sha256-NNeovW27YSK/fO2DjAsJqBvebd43usCw7ni47cgTth8";
     useNextest = true;
   };
+  zsh-patina = pkgs.rustPlatform.buildRustPackage rec {
+    pname = "zsh-patina";
+    version = "1.2.0"; # Check for latest version on crates.io
+    src = pkgs.fetchCrate {
+      inherit pname version;
+      hash = "sha256-SqXNzG82M+uAorlgsY8hO3ZECvNKWhOB60p2kTQ/lZ8=";
+    };
+    cargoHash = "sha256-yOjx13Vca6M2P3/e7CTJZV50q46ilABTh+WmtKpDPgc=";
+  };
 in
 {
   fonts.fontconfig.enable = true;
@@ -155,7 +164,7 @@ in
   };
   programs.zsh = {
     enable = true;
-    syntaxHighlighting.enable = true;
+    syntaxHighlighting.enable = false;
     autosuggestion.enable = true;
     historySubstringSearch.enable = true;
     enableCompletion = true;
@@ -169,7 +178,6 @@ in
           ohmyzsh/ohmyzsh path:plugins/git
           ohmyzsh/ohmyzsh path:plugins/fzf
           ohmyzsh/ohmyzsh path:plugins/direnv
-          zsh-users/zsh-syntax-highlighting
         ''
       ];
     };
@@ -244,6 +252,11 @@ in
         tre() {
           tree -aC -I '.git|.jj|.turbo|.terraform|.idea|node_modules|vendor|__pycache__|cdk.out|coverage|.tanstack|temp|.cache|.direnv' --dirsfirst "$@" | less -FRNX
         }
+      ''
+      # enable zsh-patina (fast zsh highlighter)
+      ''
+        # Reference the executable direcly
+        eval "$(${zsh-patina}/bin/zsh-patina activate)"
       ''
     ];
   };
