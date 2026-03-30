@@ -26,9 +26,11 @@
           ./home/aarch64-darwin.nix
           {
             programs.home-manager.enable = true;
-
-            programs.zsh.enable = true;
-            programs.git.enable = true;
+            programs.zsh.shellAliases = {
+              k = "kiro-cli";
+              ka = "kiro-cli --agent";
+              kp = "kiro-cli --agent plan";
+            };
 
             home = {
               username = "vililahtevanoja";

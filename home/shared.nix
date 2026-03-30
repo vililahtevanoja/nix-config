@@ -193,6 +193,11 @@ in
       "..." = "cd ../..";
       zshrc = "less ~/.zshrc";
       reload = ". ~/.zshrc";
+
+      # Nix Home Manager aliases
+      nhb = "nh home build .";
+      nhs = "nh home switch .";
+      nfc = "nix flake check";
     };
     history = {
       size = 1000000;
