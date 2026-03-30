@@ -1,0 +1,4 @@
+{
+  // Keep Nix files under nixfmt; format all other supported files with oxfmt.
+  "ignorePatterns": ["**/*.nix"],
+}

@@ -21,7 +21,7 @@ Personal Home Manager flake setup for multiple machines (macOS + Linux).
 │  ├─ shared.nix                # shared config for all environments
 │  ├─ shared-linux.nix          # linux specific
 │  ├─ aarch64-darwin.nix        # MacOS specific
-│  ├─ x86_64-linux.nix          
+│  ├─ x86_64-linux.nix
 │  └─ aarch64-linux.nix
 └─ dev-flakes/
    └─ nodejs-version-pinned.nix

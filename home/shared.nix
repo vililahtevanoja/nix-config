@@ -52,6 +52,7 @@ in
     zstd
     parallel
     duf
+    oxfmt
 
     # reproducible development environments
     devenv

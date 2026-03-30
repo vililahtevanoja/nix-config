@@ -1,0 +1,20 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "nixfmt **/*.nix",
+            "statusMessage": "Formatting nix-files"
+          },
+          {
+            "type": "command",
+            "command": "oxfmt",
+            "statusMessage": "Formatting non-nix files"
+          }
+        ]
+      }
+    ]
+  }
+}
