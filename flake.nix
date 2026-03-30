@@ -36,6 +36,9 @@
               username = "vililahtevanoja";
               homeDirectory = "/Users/vililahtevanoja";
               stateVersion = "25.05"; # Please read the comment before changing.
+              packages = with unstable.legacyPackages.aarch64-darwin; [
+                terraform-ls
+              ];
             };
           }
         ];
