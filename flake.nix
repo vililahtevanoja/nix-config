@@ -73,6 +73,7 @@
             programs.home-manager.enable = true;
 
             programs.zsh.enable = true;
+            programs.fish.enable = true;
             programs.git.enable = true;
 
             home = {

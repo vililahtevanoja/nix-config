@@ -25,6 +25,22 @@ let
     };
     cargoHash = "sha256-yOjx13Vca6M2P3/e7CTJZV50q46ilABTh+WmtKpDPgc=";
   };
+  common-shell-aliases = {
+    bubu = "brew update && brew upgrade";
+    pn = "pnpm";
+    ll = "ls -lh";
+    l = "ls -alh";
+    vim = "nvim";
+    weather = "curl 'wttr.in?M'";
+    kalasatama = "curl 'wttr.in/~Kalasatama?M'";
+    ".." = "cd ..";
+    "..." = "cd ../..";
+
+    # Nix Home Manager aliases
+    nhb = "nh home build .";
+    nhs = "nh home switch .";
+    nfc = "nix flake check";
+  };
 in
 {
   fonts.fontconfig.enable = true;
@@ -182,23 +198,9 @@ in
         ''
       ];
     };
-    shellAliases = {
-      bubu = "brew update && brew upgrade";
-      pn = "pnpm";
-      ll = "ls -lh";
-      l = "ls -alh";
-      vim = "nvim";
-      weather = "curl 'wttr.in?M'";
-      kalasatama = "curl 'wttr.in/~Kalasatama?M'";
-      ".." = "cd ..";
-      "..." = "cd ../..";
+    shellAliases = common-shell-aliases // {
       zshrc = "less ~/.zshrc";
       reload = ". ~/.zshrc";
-
-      # Nix Home Manager aliases
-      nhb = "nh home build .";
-      nhs = "nh home switch .";
-      nfc = "nix flake check";
     };
     history = {
       size = 1000000;
@@ -272,11 +274,20 @@ in
     interactiveShellInit = ''
       set fish_greeting # Disable greeting
     '';
+    shellAliases = common-shell-aliases;
+    plugins = with pkgs; [
+      # Fish function making it easy to use utilities written for Bash in Fish shell
+      {
+        name = "bass";
+        src = fishPlugins.bass.src;
+      }
+    ];
   };
 
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
+    enableFishIntegration = true;
     settings = {
       direnv = {
         disabled = true; # pending https://github.com/starship/starship/pull/6389
@@ -379,13 +390,15 @@ in
 
   programs.direnv = {
     enable = true;
-    enableZshIntegration = true;
     nix-direnv.enable = true;
+    enableZshIntegration = true;
+    enableFishIntegration = true;
   };
 
   programs.fzf = {
     enable = true;
     enableZshIntegration = true;
+    enableFishIntegration = true;
   };
 
   programs.zoxide = {
