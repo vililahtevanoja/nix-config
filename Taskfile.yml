@@ -1,0 +1,10 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+
+version: "3"
+
+tasks:
+  format:
+    desc: Format all files
+    cmds:
+      - oxfmt && nixfmt **/*.nix
+    silent: true
