@@ -211,6 +211,15 @@ in
     };
     # setup .zshrc contents
     initContent = lib.mkMerge [
+      # ensure stale starship keymap widget wrappers are removed before starship init
+      # ref: https://github.com/starship/starship/issues/3418
+      # potential fix: https://github.com/starship/starship/pull/6398
+      (lib.mkBefore ''
+        if [[ "''${widgets[zle-keymap-select]#user:}" == "starship_zle-keymap-select" || \
+              "''${widgets[zle-keymap-select]#user:}" == "starship_zle-keymap-select-wrapped" ]]; then
+          zle -N zle-keymap-select ""
+        fi
+      '')
       # Prettified `time` command output
       ''
         if [[ `uname` == Darwin ]]; then
