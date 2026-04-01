@@ -176,6 +176,24 @@ in
           "--to"
           "@-"
         ];
+        # print the name of the current git branch
+        current-git-branch = [
+          "log"
+          "-r"
+          "heads(bookmarks() & ::@)"
+          "-n"
+          "1"
+          "--no-graph"
+          "--no-pager"
+          "-T"
+          "bookmarks"
+        ];
+        # abandon dangling bookmarks and working copies that are not reachable from any heads or tags
+        abandon-dangling = [
+          "abandon"
+          "-r"
+          "mutable() ~ ::bookmarks() ~ ::working_copies()"
+        ];
       };
     };
   };
