@@ -10,7 +10,7 @@
           },
           {
             "type": "command",
-            "command": "oxfmt",
+            "command": "oxfmt --write . >/dev/null",
             "statusMessage": "Formatting non-nix files"
           }
         ]
