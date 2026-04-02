@@ -71,6 +71,11 @@ in
     oxfmt # formatter
     glow # CLI markdown viewer
 
+    # diff tools
+    delta
+    difftastic
+    diff-so-fancy
+
     # reproducible development environments
     devenv
 
@@ -134,6 +139,7 @@ in
         commitGraph = true;
       };
       diff = {
+        external = "difft";
         algorithm = "histogram";
         colorMoved = "plain";
         mnemonicPrefix = true;
@@ -168,6 +174,15 @@ in
       ui = {
         editor = "nvim";
         default-command = "log";
+        # using difftastic for now
+        diff-formatter = ["difft" "--color=always" "$left" "$right"];
+
+        # delta option 
+        # pager = "delta";
+        # diff-formatter = ":git";
+
+        # diff-so-fancy option 
+        # pager = ["sh" "-c" "diff-so-fancy | less -RFX"];
       };
       aliases = {
         tug = [
