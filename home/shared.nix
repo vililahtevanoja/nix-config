@@ -56,25 +56,27 @@ in
     git
     jujutsu # git alternative
     lazyjj # jujutsu TUI
-    jq
-    yq
+    jq # command-line JSON processor
+    yq # command-line YAML processor
     curl
     wget
-    ripgrep
-    fzf
-    btop
+    ripgrep # fast search tool
+    fzf # fuzzy finder
+    btop # resource monitor
     direnv
-    hyperfine
-    zstd
-    parallel
+    hyperfine # benchmarking tool
+    zstd # powerful compression
+    parallel # run commands in parallel
     duf
-    oxfmt
+    oxfmt # formatter
+    glow # CLI markdown viewer
 
     # reproducible development environments
     devenv
 
     # multiplexing
     zellij
+    tmux
 
     # VCS provider clients
     gh
