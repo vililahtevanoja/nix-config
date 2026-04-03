@@ -79,6 +79,9 @@ in
     oxfmt # formatter
     glow # CLI markdown viewer
 
+    # editors
+    helix
+
     # diff tools
     delta
     difftastic
@@ -472,6 +475,19 @@ in
       set expandtab
       set smartindent
     '';
+  };
+
+  programs.helix = {
+    enable = true;
+
+    languages.language = [
+      {
+        name = "nix";
+        auto-format = true;
+        formatter.command = lib.getExe pkgs.nixfmt;
+        indent = { tab-width = 2; unit = "  "; };
+      }
+    ];
   };
 
   programs.zellij = {
