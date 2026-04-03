@@ -139,7 +139,7 @@ in
         commitGraph = true;
       };
       diff = {
-        external = "difft";
+        external = (lib.getExe pkgs.difftastic);
         algorithm = "histogram";
         colorMoved = "plain";
         mnemonicPrefix = true;
@@ -175,13 +175,18 @@ in
         editor = "nvim";
         default-command = "log";
         # using difftastic for now
-        diff-formatter = ["difft" "--color=always" "$left" "$right"];
+        diff-formatter = [
+          (lib.getExe pkgs.difftastic)
+          "--color=always"
+          "$left"
+          "$right"
+        ];
 
-        # delta option 
+        # delta option
         # pager = "delta";
         # diff-formatter = ":git";
 
-        # diff-so-fancy option 
+        # diff-so-fancy option
         # pager = ["sh" "-c" "diff-so-fancy | less -RFX"];
       };
       aliases = {
