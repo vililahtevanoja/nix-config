@@ -15,6 +15,10 @@ let
     };
     cargoHash = "sha256-NNeovW27YSK/fO2DjAsJqBvebd43usCw7ni47cgTth8";
     useNextest = true;
+    meta = {
+      description = "Starship module to show the current status of a jj repository";
+      mainProgram = "starship-jj";
+    };
   };
   zsh-patina = pkgs.rustPlatform.buildRustPackage rec {
     pname = "zsh-patina";
@@ -24,6 +28,10 @@ let
       hash = "sha256-SqXNzG82M+uAorlgsY8hO3ZECvNKWhOB60p2kTQ/lZ8=";
     };
     cargoHash = "sha256-yOjx13Vca6M2P3/e7CTJZV50q46ilABTh+WmtKpDPgc=";
+    meta = {
+      description = "Zsh plugin for fast syntax highlighting";
+      mainProgram = "zsh-patina";
+    };
   };
   common-shell-aliases = {
     bubu = "brew update && brew upgrade";
@@ -287,7 +295,7 @@ in
       ''
         autoload -U compinit
         compinit
-        source <(${pkgs.jujutsu}/bin/jj util completion zsh)
+        source <(${lib.getExe pkgs.jujutsu} util completion zsh)
       ''
       # fix Home and End button behavior
       ''
@@ -313,7 +321,7 @@ in
       # enable zsh-patina (fast zsh highlighter)
       ''
         # Reference the executable direcly
-        eval "$(${zsh-patina}/bin/zsh-patina activate)"
+        eval "$(${lib.getExe zsh-patina} activate)"
       ''
     ];
   };
@@ -358,31 +366,31 @@ in
           format = "$output";
         };
         git_status = {
-          when = "! ${starship-jj}/bin/starship-jj --ignore-working-copy root";
+          when = "! ${lib.getExe starship-jj} --ignore-working-copy root";
           command = "starship module git_status";
           style = "";
           description = "Only show git_status if we're not in a jj repo";
         };
         git_state = {
-          when = "! ${starship-jj}/bin/starship-jj --ignore-working-copy root";
+          when = "! ${lib.getExe starship-jj} --ignore-working-copy root";
           command = "starship module git_state";
           style = "";
           description = "Only show git_state if we're not in a jj repo";
         };
         git_commit = {
-          when = "! ${starship-jj}/bin/starship-jj --ignore-working-copy root";
+          when = "! ${lib.getExe starship-jj} --ignore-working-copy root";
           command = "starship module git_commit";
           style = "";
           description = "Only show git_commit if we're not in a jj repo";
         };
         git_metrics = {
-          when = "! ${starship-jj}/bin/starship-jj --ignore-working-copy root";
+          when = "! ${lib.getExe starship-jj} --ignore-working-copy root";
           command = "starship module git_metrics";
           style = "";
           description = "Only show git_metrics if we're not in a jj repo";
         };
         git_branch = {
-          when = "! ${starship-jj}/bin/starship-jj --ignore-working-copy root";
+          when = "! ${lib.getExe starship-jj} --ignore-working-copy root";
           command = "starship module git_branch";
           style = "";
           description = "Only show git_branch if we're not in a jj repo";
@@ -493,7 +501,7 @@ in
       '';
     };
     extraConfig = ''
-      default_shell "${pkgs.zsh}/bin/zsh"
+      default_shell "${lib.getExe pkgs.zsh}"
       keybinds {
           unbind "Ctrl q"
           shared_except "locked" {
