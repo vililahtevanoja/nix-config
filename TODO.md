@@ -1,0 +1,1 @@
+- [ ] figure out how to put files/glow.yml glow config file to the correct place on each platform

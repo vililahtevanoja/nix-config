@@ -6,6 +6,7 @@ This file defines guidance for AI agents working in this repository.
 
 - Primary language/config: Nix (flakes, Home Manager, and related modules).
 - Workspace root: repository root
+- `TODO.md` contains a list of todos that we want to tackle in the future
 
 ## Goals
 
@@ -29,6 +30,7 @@ This file defines guidance for AI agents working in this repository.
 - Avoid duplicate definitions; factor shared logic into common modules.
 - Prefer `mkIf`/`mkMerge` patterns for conditional config.
 - Keep derivations pinned; avoid introducing unpinned sources.
+- Avoid hard-coding references to binaries, and prefer using programmatic references to them. (e.g. `lib.getExe pkgs.jujutsu` vs. `jj`)
 
 ## Testing/verification
 
