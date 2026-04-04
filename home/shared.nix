@@ -59,6 +59,9 @@ in
       "github-copilot-cli"
     ];
 
+  xdg.enable = true;
+  xdg.configFile."ghostty/config.ghostty".source = ../files/ghostty-config;
+
   home.packages = with pkgs; [
     # general tools
     git
@@ -485,7 +488,10 @@ in
         name = "nix";
         auto-format = true;
         formatter.command = lib.getExe pkgs.nixfmt;
-        indent = { tab-width = 2; unit = "  "; };
+        indent = {
+          tab-width = 2;
+          unit = "  ";
+        };
       }
     ];
   };

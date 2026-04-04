@@ -6,7 +6,9 @@
 }:
 
 # path to home-manager-managed zsh binary
-let zshBin = "${config.home.profileDirectory}/bin/zsh"; in
+let
+  zshBin = "${config.home.profileDirectory}/bin/zsh";
+in
 {
   home.packages = with pkgs; [
 
