@@ -1,4 +1,5 @@
 {
+  config,
   pkgs,
   unstable,
   lib,
@@ -81,6 +82,7 @@ in
     duf
     oxfmt # formatter
     glow # CLI markdown viewer
+    bat
 
     # editors
     helix
@@ -235,6 +237,8 @@ in
   };
   programs.zsh = {
     enable = true;
+    # Use XDG location for zsh config files.
+    dotDir = "${config.xdg.configHome}/zsh";
     syntaxHighlighting.enable = false;
     autosuggestion.enable = true;
     historySubstringSearch.enable = true;
@@ -253,8 +257,8 @@ in
       ];
     };
     shellAliases = common-shell-aliases // {
-      zshrc = "less ~/.zshrc";
-      reload = ". ~/.zshrc";
+      zshrc = "${lib.getExe pkgs.bat} ${config.xdg.configHome}/zsh/.zshrc";
+      reload = ". ${config.xdg.configHome}/zsh/.zshrc";
     };
     history = {
       size = 1000000;
