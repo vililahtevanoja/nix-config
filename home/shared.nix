@@ -476,6 +476,7 @@ in
   programs.zoxide = {
     enable = true;
     enableZshIntegration = true;
+    enableFishIntegration = true;
   };
 
   programs.neovim = {
