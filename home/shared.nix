@@ -83,6 +83,7 @@ in
     oxfmt # formatter
     glow # CLI markdown viewer
     bat
+    tree
 
     # editors
     helix
@@ -325,11 +326,11 @@ in
           # find files fast
           # e.g. `ff .md` to find markdown files
           ff() {
-            rg --files -g "*$1*" -i
+            ${lib.getExe pkgs.ripgrep} --files -g "*$1*" -i
           }
           # view file tree
           tre() {
-            tree -aC -I '.git|.jj|.turbo|.terraform|.idea|node_modules|vendor|__pycache__|cdk.out|coverage|.tanstack|temp|.cache|.direnv' --dirsfirst "$@" | less -FRNX
+            ${lib.getExe pkgs.tree} -aC -I '.git|.jj|.turbo|.terraform|.idea|node_modules|vendor|__pycache__|cdk.out|coverage|.tanstack|temp|.cache|.direnv' --dirsfirst "$@" | less -FRNX
           }
         ''
         # enable zsh-patina (fast zsh highlighter)
