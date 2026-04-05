@@ -29,6 +29,7 @@ let
       hash = "sha256-SqXNzG82M+uAorlgsY8hO3ZECvNKWhOB60p2kTQ/lZ8=";
     };
     cargoHash = "sha256-yOjx13Vca6M2P3/e7CTJZV50q46ilABTh+WmtKpDPgc=";
+    useNextest = true;
     meta = {
       description = "Zsh plugin for fast syntax highlighting";
       mainProgram = "zsh-patina";
