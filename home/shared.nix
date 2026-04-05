@@ -36,7 +36,6 @@ let
     };
   };
   common-shell-aliases = {
-    bubu = "brew update && brew upgrade";
     pn = "pnpm";
     ll = "ls -lh";
     l = "ls -alh";

@@ -4,6 +4,11 @@
   lib,
   ...
 }:
+let
+  common-shell-aliases = {
+    bubu = "brew update && brew upgrade";
+  };
+in
 {
   home.sessionPath = [
     "$HOME/bin"
@@ -36,6 +41,10 @@
     # LLM
     # kiro-cli # hold off for now
   ];
+
+  programs.zsh.shellAliases = common-shell-aliases;
+
+  programs.fish.shellAliases = common-shell-aliases;
 
   # Shared settings for darwin (e.g., macOS)
 }
