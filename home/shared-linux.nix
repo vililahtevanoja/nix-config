@@ -21,7 +21,7 @@ in
 
   home.sessionPath = [
     "/snap/bin"
-    "$home/bin"
+    "${config.home.profileDirectory}/bin"
     "/usr/local/bin"
   ];
 
