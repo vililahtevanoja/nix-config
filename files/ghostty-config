@@ -66,7 +66,16 @@ quick-terminal-size = 100%
 split-divider-color = #383838
 unfocused-split-opacity = 0.8
 
-# keybindings
+###############
+# keybindings #
+###############
+
+# disable right option key being used as alt/meta key
+# fixes Macbook keyboard usage e.g. for '@' (option+2)
+macos-option-as-alt = left
+keybind = alt+left=unbind
+keybind = alt+right=unbind
+
 keybind = global:F12=toggle_quick_terminal
 
 cursor-style = block
