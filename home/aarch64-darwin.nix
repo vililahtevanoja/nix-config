@@ -15,6 +15,12 @@ in
     "$HOME/.local/bin"
   ];
 
+  programs.zsh = {
+    initContent = ''
+      eval "$(/opt/homebrew/bin/brew shellenv)"
+    '';
+  };
+
   nixpkgs.config.allowUnfreePredicate =
     pkg:
     builtins.elem (lib.getName pkg) [
