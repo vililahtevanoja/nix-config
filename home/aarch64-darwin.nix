@@ -10,14 +10,15 @@ let
   };
 in
 {
-  home.sessionPath = [
-    "$HOME/bin"
-    "$HOME/.local/bin"
-  ];
-
   programs.zsh = {
-    initContent = ''
-      eval "$(/opt/homebrew/bin/brew shellenv)"
+    initContent = lib.mkAfter ''
+      path+=("$HOME/homebrew/bin" "$HOME/homebrew/sbin")
+    '';
+  };
+
+  programs.fish = {
+    interactiveShellInit = lib.mkAfter ''
+      fish_add_path --append --path --move $HOME/homebrew/bin $HOME/homebrew/sbin
     '';
   };
 
