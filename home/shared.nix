@@ -482,6 +482,8 @@ in
   programs.neovim = {
     enable = true;
     defaultEditor = true;
+    withPython3 = false;
+    withRuby = false;
     extraConfig = ''
       set tabstop=2
       set shiftwidth=2
