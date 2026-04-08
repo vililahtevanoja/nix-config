@@ -12,13 +12,13 @@ in
 {
   programs.zsh = {
     initContent = lib.mkAfter ''
-      path+=("$HOME/homebrew/bin" "$HOME/homebrew/sbin")
+      path+=("/opt/homebrew/bin" "/opt/homebrew/sbin")
     '';
   };
 
   programs.fish = {
     interactiveShellInit = lib.mkAfter ''
-      fish_add_path --append --path --move $HOME/homebrew/bin $HOME/homebrew/sbin
+      fish_add_path --append --path --move /opt/homebrew/bin /opt/homebrew/sbin
     '';
   };
 
