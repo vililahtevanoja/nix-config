@@ -89,6 +89,7 @@ in
     glow # CLI markdown viewer
     bat
     tree
+    htop
 
     # editors
     helix
