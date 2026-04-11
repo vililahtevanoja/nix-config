@@ -126,6 +126,7 @@ in
     go
     rustup
     nodejs_24
+    pnpm
     typescript-go
     python314
     uv
