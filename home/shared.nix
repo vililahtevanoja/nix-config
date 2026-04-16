@@ -15,7 +15,7 @@ let
       hash = "sha256-oisz3V3UDHvmvbA7+t5j7waN9NykMUWGOpEB5EkmYew";
     };
     cargoHash = "sha256-NNeovW27YSK/fO2DjAsJqBvebd43usCw7ni47cgTth8";
-    useNextest = true;
+    doCheck = false; # the tests are quite limited so not critical, but double the already long compilation time
     meta = {
       description = "Starship module to show the current status of a jj repository";
       mainProgram = "starship-jj";
