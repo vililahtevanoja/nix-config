@@ -49,6 +49,7 @@ let
     nhb = "nh home build .";
     nhs = "nh home switch .";
     nfc = "nix flake check";
+    nfu = "nix flake update";
   };
   zshDotDir = "${config.xdg.configHome}/zsh";
 in
