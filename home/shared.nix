@@ -135,6 +135,7 @@ in
     # nix
     nixfmt
     nh
+    mcp-nixos
 
     # zsh
     zsh-fzf-tab
