@@ -1,1 +1,4 @@
 - [ ] figure out how to put files/glow.yml glow config file to the correct place on each platform
+- [ ] remove `cli-helpers` `doCheck = false` workaround from `home/aarch64-darwin.nix` once upstream builds/tests are stable
+- [ ] remove `aioboto3` `doCheck = false` workaround from `home/aarch64-darwin.nix` once upstream builds/tests are stable
+- [ ] remove `direnv` `doCheck = false` workaround from `home/aarch64-darwin.nix` once upstream builds/tests are stable
