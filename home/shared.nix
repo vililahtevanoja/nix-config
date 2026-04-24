@@ -310,11 +310,9 @@ in
       ''
       # increase ulimit to reduce errors from too many open files
       "ulimit -n 10240" # max is 10240
-      # jujutsu autocompletion
+      # enable dynamic completions for jj (jujutsu). ref: https://docs.jj-vcs.dev/latest/install-and-setup/#dynamic-completions
       ''
-        autoload -U compinit
-        compinit
-        source <(${lib.getExe pkgs.jujutsu} util completion zsh)
+        source <(COMPLETE=zsh ${lib.getExe pkgs.jujutsu})
       ''
       # fix Home and End button behavior
       ''
