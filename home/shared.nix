@@ -557,6 +557,6 @@ in
           }
       }
     '';
-    enableZshIntegration = true;
+    enableZshIntegration = false;
   };
 }
