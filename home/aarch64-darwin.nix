@@ -48,6 +48,7 @@ in
       pgcli = final.python3Packages.pgcli;
       # fix for zsh hangs on Darwin, e.g. direnv tests would hang without this
       # ref: https://github.com/NixOS/nixpkgs/issues/513019 & https://github.com/NixOS/nixpkgs/issues/513543
+      # fixed in:  https://github.com/NixOS/nixpkgs/pull/513971 (https://nixpk.gs/pr-tracker.html?pr=513971)
       zsh = prev.zsh.overrideAttrs (
         old:
         prev.lib.optionalAttrs prev.stdenv.isDarwin {
