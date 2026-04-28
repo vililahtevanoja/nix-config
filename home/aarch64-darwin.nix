@@ -22,24 +22,10 @@ in
     '';
   };
 
-  # 1.24.0 hash is invalid, use newer 1.24.1 with correct hash for now
   nixpkgs.overlays = [
     # Temporary workaround: cli-helpers tests currently fail on Darwin/Python 3.13,
     # which breaks pgcli transitively during Home Manager builds.
     (final: prev: {
-      python3Packages = prev.python3Packages.overrideScope (
-        pyFinal: pyPrev: {
-          cli-helpers = pyPrev.cli-helpers.overridePythonAttrs (_: {
-            doCheck = false;
-          });
-          # Temporary workaround: aioboto3 test suite currently fails with
-          # "Duplicate 'Server' header found" on Darwin/Python 3.13.
-          aioboto3 = pyPrev.aioboto3.overridePythonAttrs (_: {
-            doCheck = false;
-          });
-        }
-      );
-      pgcli = final.python3Packages.pgcli;
       # fix for zsh hangs on Darwin, e.g. direnv tests would hang without this
       # ref: https://github.com/NixOS/nixpkgs/issues/513019 & https://github.com/NixOS/nixpkgs/issues/513543
       # fixed in:  https://github.com/NixOS/nixpkgs/pull/513971 (https://nixpk.gs/pr-tracker.html?pr=513971)

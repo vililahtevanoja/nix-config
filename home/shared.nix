@@ -63,6 +63,26 @@ in
     ZDOTDIR = zshDotDir;
   };
 
+  nixpkgs.overlays = [
+    # Temporary workaround: cli-helpers tests currently fail on Python 3.13,
+    # which breaks pgcli transitively during Home Manager builds.
+    (final: prev: {
+      python3Packages = prev.python3Packages.overrideScope (
+        pyFinal: pyPrev: {
+          cli-helpers = pyPrev.cli-helpers.overridePythonAttrs (_: {
+            doCheck = false;
+          });
+          # Temporary workaround: aioboto3 test suite currently fails with
+          # "Duplicate 'Server' header found" on Python 3.13.
+          aioboto3 = pyPrev.aioboto3.overridePythonAttrs (_: {
+            doCheck = false;
+          });
+        }
+      );
+      pgcli = final.python3Packages.pgcli;
+    })
+  ];
+
   home.packages = with pkgs; [
     # general tools
     git
