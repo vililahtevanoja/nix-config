@@ -22,12 +22,6 @@ in
     '';
   };
 
-  nixpkgs.config.allowUnfreePredicate =
-    pkg:
-    builtins.elem (lib.getName pkg) [
-      "kiro-cli"
-    ];
-
   # 1.24.0 hash is invalid, use newer 1.24.1 with correct hash for now
   nixpkgs.overlays = [
     # Temporary workaround: cli-helpers tests currently fail on Darwin/Python 3.13,
@@ -63,9 +57,6 @@ in
   # macOS (Apple Silicon) specific packages
   home.packages = with pkgs; [
     colima
-
-    # LLM
-    # kiro-cli # hold off for now
   ];
 
   programs.zsh.shellAliases = common-shell-aliases;

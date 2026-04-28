@@ -17,10 +17,27 @@
       flake-utils,
       ...
     }:
+    let
+      allowedUnfreePackages = [
+        "claude-code"
+        "confluent-cli"
+        "github-copilot-cli"
+        "kiro-cli"
+      ];
+      mkPkgs =
+        system:
+        import unstable {
+          inherit system;
+          config.allowUnfreePredicate = pkg: builtins.elem (unstable.lib.getName pkg) allowedUnfreePackages;
+        };
+      aarch64-darwin-pkgs = mkPkgs "aarch64-darwin";
+      aarch64-linux-pkgs = mkPkgs "aarch64-linux";
+      x86_64-linux-pkgs = mkPkgs "x86_64-linux";
+    in
     {
       # Define unique configurations per system
       homeConfigurations."vililahtevanoja@vili-rmbp" = home-manager.lib.homeManagerConfiguration {
-        pkgs = unstable.legacyPackages.aarch64-darwin;
+        pkgs = aarch64-darwin-pkgs;
         modules = [
           ./home/shared.nix
           ./home/aarch64-darwin.nix
@@ -36,15 +53,16 @@
               username = "vililahtevanoja";
               homeDirectory = "/Users/vililahtevanoja";
               stateVersion = "25.05"; # Please read the comment before changing.
-              packages = with unstable.legacyPackages.aarch64-darwin; [
+              packages = with aarch64-darwin-pkgs; [
                 terraform-ls
+                confluent-cli
               ];
             };
           }
         ];
       };
       homeConfigurations."vili@ViliPC" = home-manager.lib.homeManagerConfiguration {
-        pkgs = unstable.legacyPackages.x86_64-linux;
+        pkgs = x86_64-linux-pkgs;
         modules = [
           ./home/shared.nix
           ./home/shared-linux.nix
@@ -64,7 +82,7 @@
         ];
       };
       homeConfigurations."vili@raspberrypi" = home-manager.lib.homeManagerConfiguration {
-        pkgs = unstable.legacyPackages.aarch64-linux;
+        pkgs = aarch64-linux-pkgs;
         modules = [
           ./home/shared.nix
           ./home/shared-linux.nix

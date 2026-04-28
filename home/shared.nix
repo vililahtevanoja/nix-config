@@ -55,12 +55,6 @@ let
 in
 {
   fonts.fontconfig.enable = true;
-  nixpkgs.config.allowUnfreePredicate =
-    pkg:
-    builtins.elem (lib.getName pkg) [
-      "claude-code"
-      "github-copilot-cli"
-    ];
 
   xdg.enable = true;
   xdg.configFile."ghostty/config.ghostty".source = ../files/ghostty-config;
