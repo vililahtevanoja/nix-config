@@ -3,7 +3,8 @@ codex_hooks = true
 
 [mcp_servers.nixos]
 enabled = true
-command = "mcp-nixos"
+command = "uvx"
+args = ["mcp-nixos@2.3.0"]
 
 [mcp_servers.github]
 enabled = true

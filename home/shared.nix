@@ -149,7 +149,7 @@ in
     # nix
     nixfmt
     nh
-    mcp-nixos
+    # mcp-nixos # currently not working, try again later
 
     # zsh
     zsh-fzf-tab
