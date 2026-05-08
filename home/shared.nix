@@ -354,6 +354,9 @@ in
         # Reference the executable direcly
         eval "$(${lib.getExe zsh-patina} activate)"
       ''
+      ''
+        path+=("${config.home.homeDirectory}/.local/bin")
+      ''
     ];
   };
 
