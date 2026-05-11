@@ -5,13 +5,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "nixfmt **/*.nix",
-            "statusMessage": "Formatting nix-files"
-          },
-          {
-            "type": "command",
-            "command": "oxfmt --write . >/dev/null",
-            "statusMessage": "Formatting non-nix files"
+            "command": "task format >/dev/null",
+            "statusMessage": "Formatting repo files"
           }
         ]
       }
