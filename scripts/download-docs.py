@@ -39,6 +39,8 @@ class GitTreeEntry:
 
 
 DOC_SOURCES = (
+    # Keep each source scoped to the public docs subtree so the local cache stays
+    # small and avoids copying unrelated repository content.
     DocSource(repo="ghostty-org/website", subpath="docs", alias="ghostty"),
     DocSource(repo="zellij-org/zellij-org.github.io", subpath="docs/src", alias="zellij"),
 )
@@ -68,6 +70,8 @@ def parse_args() -> DownloadDocsArgs:
 
 
 def request_headers() -> dict[str, str]:
+    # GitHub allows unauthenticated requests, but a token raises the rate limit
+    # for repeated doc refreshes.
     headers = {
         "Accept": "application/vnd.github+json",
         "User-Agent": "nix-config-doc-downloader",
@@ -118,6 +122,9 @@ def github_tree_entries(source: DocSource, ref: str) -> list[GitTreeEntry]:
     subpath = PurePosixPath(source.subpath)
     entries = []
     for item in data["tree"]:
+        # The recursive tree contains every repository path. Keep only entries
+        # beneath the configured docs subpath, then strip that prefix so writes
+        # are relative to the local alias directory.
         if not isinstance(item, dict):
             continue
 
@@ -140,6 +147,8 @@ def github_tree_entries(source: DocSource, ref: str) -> list[GitTreeEntry]:
 
 
 def validate_source(source: DocSource) -> None:
+    # Sources are static today, but validation keeps future additions from
+    # accidentally writing outside the intended output layout.
     if "/" not in source.repo or source.repo.startswith("/") or source.repo.endswith("/"):
         raise ValueError(f"{source.alias}: repo must look like 'owner/name'")
 
@@ -155,6 +164,7 @@ def validate_source(source: DocSource) -> None:
 def destination_for(output_dir: Path, source: DocSource) -> Path:
     destination = (output_dir / source.alias).resolve()
     output_root = output_dir.resolve()
+    # The alias must map to a direct child of the output directory.
     if destination.parent != output_root:
         raise ValueError(f"{source.alias}: destination escapes output directory")
 
@@ -163,6 +173,8 @@ def destination_for(output_dir: Path, source: DocSource) -> Path:
 
 def target_for(destination: Path, relative_path: PurePosixPath) -> Path:
     target = (destination / Path(*relative_path.parts)).resolve()
+    # Resolve the final path before writing so odd paths cannot escape the
+    # temporary destination through traversal or symlinks.
     if destination.resolve() not in (target, *target.parents):
         raise RuntimeError(f"refusing to write path outside destination: {relative_path}")
 
@@ -210,6 +222,8 @@ def extract_source(source: DocSource, output_dir: Path) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
 
     destination = destination_for(output_dir, source)
+    # Download into a hidden sibling first. The final replace leaves either the
+    # previous cache or the completed new cache on disk if a download fails.
     tmp_parent = tempfile.mkdtemp(prefix=f".{source.alias}-", dir=output_dir)
     tmp_destination = Path(tmp_parent) / source.alias
     tmp_destination.mkdir()
@@ -226,6 +240,8 @@ def extract_source(source: DocSource, output_dir: Path) -> None:
         for directory in directories:
             target_for(tmp_destination, directory).mkdir(parents=True, exist_ok=True)
 
+        # File downloads are independent; parallelism keeps full doc refreshes
+        # fast while still capping worker count for small sources.
         with concurrent.futures.ThreadPoolExecutor(
             max_workers=min(MAX_DOWNLOAD_WORKERS, max(len(files), 1))
         ) as executor:
