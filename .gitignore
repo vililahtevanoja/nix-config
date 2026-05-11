@@ -13,3 +13,5 @@ result-*
 
 .envrc.local
 **/.local
+
+**/__pycache__/
