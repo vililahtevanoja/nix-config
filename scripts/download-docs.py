@@ -40,7 +40,7 @@ class GitTreeEntry:
 
 DOC_SOURCES = (
     DocSource(repo="ghostty-org/website", subpath="docs", alias="ghostty"),
-    DocSource(repo="zellij-org/zellij-org.github.io", subpath="docs/src", alias="zellij")
+    DocSource(repo="zellij-org/zellij-org.github.io", subpath="docs/src", alias="zellij"),
 )
 
 
@@ -50,9 +50,7 @@ MAX_DOWNLOAD_WORKERS = 16
 
 
 def parse_args() -> DownloadDocsArgs:
-    parser = argparse.ArgumentParser(
-        description="Download configured documentation folders from GitHub."
-    )
+    parser = argparse.ArgumentParser(description="Download configured documentation folders from GitHub.")
     parser.add_argument(
         "--output-dir",
         type=Path,
@@ -136,9 +134,7 @@ def github_tree_entries(source: DocSource, ref: str) -> list[GitTreeEntry]:
         if not relative_parts:
             continue
 
-        entries.append(
-            GitTreeEntry(path=PurePosixPath(*relative_parts), type=item_type)
-        )
+        entries.append(GitTreeEntry(path=PurePosixPath(*relative_parts), type=item_type))
 
     return entries
 
@@ -152,12 +148,7 @@ def validate_source(source: DocSource) -> None:
         raise ValueError(f"{source.alias}: alias must be a single path segment")
 
     subpath = PurePosixPath(source.subpath)
-    if (
-        not source.subpath
-        or subpath.is_absolute()
-        or ".." in subpath.parts
-        or "." in subpath.parts
-    ):
+    if not source.subpath or subpath.is_absolute() or ".." in subpath.parts or "." in subpath.parts:
         raise ValueError(f"{source.alias}: subpath must be a relative repository path")
 
 
@@ -238,10 +229,7 @@ def extract_source(source: DocSource, output_dir: Path) -> None:
         with concurrent.futures.ThreadPoolExecutor(
             max_workers=min(MAX_DOWNLOAD_WORKERS, max(len(files), 1))
         ) as executor:
-            futures = [
-                executor.submit(download_file, source, ref, tmp_destination, file_path)
-                for file_path in files
-            ]
+            futures = [executor.submit(download_file, source, ref, tmp_destination, file_path) for file_path in files]
             for future in concurrent.futures.as_completed(futures):
                 future.result()
 
@@ -262,11 +250,7 @@ def extract_source(source: DocSource, output_dir: Path) -> None:
 
 def main() -> int:
     args = parse_args()
-    sources = [
-        source
-        for source in DOC_SOURCES
-        if args.source is None or source.alias in args.source
-    ]
+    sources = [source for source in DOC_SOURCES if args.source is None or source.alias in args.source]
 
     for source in sources:
         extract_source(source, args.output_dir)

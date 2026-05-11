@@ -145,6 +145,7 @@ in
     typescript-go
     python314
     uv
+    ruff
 
     # nix
     nixfmt

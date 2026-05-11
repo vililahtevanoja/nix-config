@@ -6,5 +6,5 @@ tasks:
   format:
     desc: Format all files
     cmds:
-      - oxfmt && nixfmt **/*.nix
+      - oxfmt && nixfmt **/*.nix && ruff format --line-length 120 **/*.py
     silent: true
