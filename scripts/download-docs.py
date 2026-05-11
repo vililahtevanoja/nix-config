@@ -4,13 +4,15 @@
 from __future__ import annotations
 
 import argparse
+import concurrent.futures
+import json
 import os
 import shutil
 import sys
-import tarfile
 import tempfile
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 from dataclasses import dataclass
 from pathlib import Path, PurePosixPath
@@ -30,6 +32,12 @@ class DownloadDocsArgs:
     source: list[str] | None
 
 
+@dataclass(frozen=True)
+class GitTreeEntry:
+    path: PurePosixPath
+    type: str
+
+
 DOC_SOURCES = (
     DocSource(repo="ghostty-org/website", subpath="docs", alias="ghostty"),
     DocSource(repo="zellij-org/zellij-org.github.io", subpath="docs/src", alias="zellij")
@@ -38,6 +46,7 @@ DOC_SOURCES = (
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_OUTPUT_DIR = REPO_ROOT / ".local" / "docs"
+MAX_DOWNLOAD_WORKERS = 16
 
 
 def parse_args() -> DownloadDocsArgs:
@@ -60,13 +69,6 @@ def parse_args() -> DownloadDocsArgs:
     return DownloadDocsArgs(output_dir=args.output_dir, source=args.source)
 
 
-def github_tarball_url(source: DocSource) -> str:
-    if source.ref:
-        return f"https://api.github.com/repos/{source.repo}/tarball/{source.ref}"
-
-    return f"https://api.github.com/repos/{source.repo}/tarball"
-
-
 def request_headers() -> dict[str, str]:
     headers = {
         "Accept": "application/vnd.github+json",
@@ -78,6 +80,67 @@ def request_headers() -> dict[str, str]:
         headers["Authorization"] = f"Bearer {token}"
 
     return headers
+
+
+def github_api_json(url: str) -> object:
+    request = urllib.request.Request(url, headers=request_headers())
+    try:
+        with urllib.request.urlopen(request) as response:
+            return json.load(response)
+    except urllib.error.HTTPError as error:
+        message = error.read().decode("utf-8", errors="replace")
+        raise RuntimeError(f"GitHub returned HTTP {error.code}: {message}") from error
+    except urllib.error.URLError as error:
+        raise RuntimeError(f"could not read GitHub API URL {url}: {error.reason}") from error
+
+
+def github_default_branch(source: DocSource) -> str:
+    url = f"https://api.github.com/repos/{source.repo}"
+    data = github_api_json(url)
+    if not isinstance(data, dict) or not isinstance(data.get("default_branch"), str):
+        raise RuntimeError(f"{source.alias}: could not determine default branch")
+
+    return data["default_branch"]
+
+
+def source_ref(source: DocSource) -> str:
+    return source.ref if source.ref else github_default_branch(source)
+
+
+def github_tree_entries(source: DocSource, ref: str) -> list[GitTreeEntry]:
+    quoted_ref = urllib.parse.quote(ref, safe="")
+    url = f"https://api.github.com/repos/{source.repo}/git/trees/{quoted_ref}?recursive=1"
+    data = github_api_json(url)
+    if not isinstance(data, dict) or not isinstance(data.get("tree"), list):
+        raise RuntimeError(f"{source.alias}: could not read repository tree")
+
+    if data.get("truncated"):
+        raise RuntimeError(f"{source.alias}: GitHub tree response was truncated")
+
+    subpath = PurePosixPath(source.subpath)
+    entries = []
+    for item in data["tree"]:
+        if not isinstance(item, dict):
+            continue
+
+        item_path = item.get("path")
+        item_type = item.get("type")
+        if not isinstance(item_path, str) or not isinstance(item_type, str):
+            continue
+
+        path = PurePosixPath(item_path)
+        if path.parts[: len(subpath.parts)] != subpath.parts:
+            continue
+
+        relative_parts = path.parts[len(subpath.parts) :]
+        if not relative_parts:
+            continue
+
+        entries.append(
+            GitTreeEntry(path=PurePosixPath(*relative_parts), type=item_type)
+        )
+
+    return entries
 
 
 def validate_source(source: DocSource) -> None:
@@ -107,6 +170,49 @@ def destination_for(output_dir: Path, source: DocSource) -> Path:
     return destination
 
 
+def target_for(destination: Path, relative_path: PurePosixPath) -> Path:
+    target = (destination / Path(*relative_path.parts)).resolve()
+    if destination.resolve() not in (target, *target.parents):
+        raise RuntimeError(f"refusing to write path outside destination: {relative_path}")
+
+    return target
+
+
+def raw_github_url(source: DocSource, ref: str, relative_path: PurePosixPath) -> str:
+    file_path = source_file_path(source, relative_path)
+    quoted_ref = urllib.parse.quote(ref, safe="")
+    quoted_path = urllib.parse.quote(file_path.as_posix(), safe="/")
+    return f"https://raw.githubusercontent.com/{source.repo}/{quoted_ref}/{quoted_path}"
+
+
+def source_file_path(source: DocSource, relative_path: PurePosixPath) -> PurePosixPath:
+    return PurePosixPath(source.subpath, *relative_path.parts)
+
+
+def download_file(source: DocSource, ref: str, destination: Path, relative_path: PurePosixPath) -> None:
+    target = target_for(destination, relative_path)
+    target.parent.mkdir(parents=True, exist_ok=True)
+
+    url = raw_github_url(source, ref, relative_path)
+    request = urllib.request.Request(url, headers=request_headers())
+    try:
+        with urllib.request.urlopen(request) as response:
+            with target.open("wb") as output:
+                shutil.copyfileobj(response, output)
+    except urllib.error.HTTPError as error:
+        message = error.read().decode("utf-8", errors="replace")
+        raise RuntimeError(
+            f"{source.alias}: failed to download {source.repo}/"
+            f"{source_file_path(source, relative_path)}: "
+            f"HTTP {error.code}: {message}"
+        ) from error
+    except urllib.error.URLError as error:
+        raise RuntimeError(
+            f"{source.alias}: failed to download {source.repo}/"
+            f"{source_file_path(source, relative_path)} from {url}: {error.reason}"
+        ) from error
+
+
 def extract_source(source: DocSource, output_dir: Path) -> None:
     started_at = time.perf_counter()
     validate_source(source)
@@ -117,22 +223,27 @@ def extract_source(source: DocSource, output_dir: Path) -> None:
     tmp_destination = Path(tmp_parent) / source.alias
     tmp_destination.mkdir()
 
-    matched = False
-    request = urllib.request.Request(github_tarball_url(source), headers=request_headers())
-
     try:
-        with urllib.request.urlopen(request) as response:
-            with tarfile.open(fileobj=response, mode="r|gz") as archive:
-                for member in archive:
-                    relative_path = member_relative_path(member.name, source.subpath)
-                    if relative_path is None:
-                        continue
+        ref = source_ref(source)
+        entries = github_tree_entries(source, ref)
+        directories = [entry.path for entry in entries if entry.type == "tree"]
+        files = [entry.path for entry in entries if entry.type == "blob"]
 
-                    matched = True
-                    extract_member(archive, member, tmp_destination, relative_path)
-
-        if not matched:
+        if not directories and not files:
             raise RuntimeError(f"{source.repo}: subpath '{source.subpath}' was not found")
+
+        for directory in directories:
+            target_for(tmp_destination, directory).mkdir(parents=True, exist_ok=True)
+
+        with concurrent.futures.ThreadPoolExecutor(
+            max_workers=min(MAX_DOWNLOAD_WORKERS, max(len(files), 1))
+        ) as executor:
+            futures = [
+                executor.submit(download_file, source, ref, tmp_destination, file_path)
+                for file_path in files
+            ]
+            for future in concurrent.futures.as_completed(futures):
+                future.result()
 
         if destination.exists():
             shutil.rmtree(destination)
@@ -140,54 +251,13 @@ def extract_source(source: DocSource, output_dir: Path) -> None:
         elapsed = time.perf_counter() - started_at
         print(
             f"{source.alias}: downloaded {source.repo}/{source.subpath} -> "
-            f"{destination} ({elapsed:.2f}s)"
+            f"{destination} ({len(files)} files, {elapsed:.2f}s)"
         )
     except urllib.error.HTTPError as error:
         message = error.read().decode("utf-8", errors="replace")
         raise RuntimeError(f"{source.alias}: GitHub returned HTTP {error.code}: {message}") from error
     finally:
         shutil.rmtree(tmp_parent, ignore_errors=True)
-
-
-def member_relative_path(member_name: str, subpath: str) -> PurePosixPath | None:
-    path = PurePosixPath(member_name)
-    parts_without_archive_root = path.parts[1:]
-    if not parts_without_archive_root:
-        return None
-
-    path_without_archive_root = PurePosixPath(*parts_without_archive_root)
-    subpath_parts = PurePosixPath(subpath).parts
-    if path_without_archive_root.parts[: len(subpath_parts)] != subpath_parts:
-        return None
-
-    relative_parts = path_without_archive_root.parts[len(subpath_parts) :]
-    return PurePosixPath(*relative_parts) if relative_parts else PurePosixPath(".")
-
-
-def extract_member(
-    archive: tarfile.TarFile,
-    member: tarfile.TarInfo,
-    destination: Path,
-    relative_path: PurePosixPath,
-) -> None:
-    target = (destination / Path(*relative_path.parts)).resolve()
-    if destination.resolve() not in (target, *target.parents):
-        raise RuntimeError(f"refusing to extract path outside destination: {member.name}")
-
-    if member.isdir():
-        target.mkdir(parents=True, exist_ok=True)
-        return
-
-    if not member.isfile():
-        return
-
-    target.parent.mkdir(parents=True, exist_ok=True)
-    file_obj = archive.extractfile(member)
-    if file_obj is None:
-        raise RuntimeError(f"could not read archive member: {member.name}")
-
-    with file_obj, target.open("wb") as output:
-        shutil.copyfileobj(file_obj, output)
 
 
 def main() -> int:
