@@ -505,15 +505,6 @@ in
     withPython3 = false;
     withRuby = false;
 
-    plugins = with pkgs.vimPlugins; [
-      nui-nvim
-      hardtime-nvim
-    ];
-
-    initLua = ''
-      require("hardtime").setup({})
-    '';
-
     extraConfig = ''
       set tabstop=2
       set shiftwidth=2
