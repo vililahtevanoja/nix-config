@@ -9,7 +9,9 @@ Personal Home Manager flake setup for multiple machines (macOS + Linux).
   - Linux x86_64: `vili@ViliPC`
   - Linux aarch64 (Raspberry Pi): `vili@raspberrypi`
 - Shared user tooling and shell setup in `home/shared.nix`
-- OS-specific additions in `home/aarch64-darwin.nix`, `home/x86_64-linux.nix`, `home/aarch64-linux.nix`
+- Program modules in `home/modules/`
+- OS-specific additions in `home/platforms/`
+- Host-specific additions in `home/hosts/`
 - Dev flake examples under `dev-flakes/`
 
 ## Layout
@@ -18,11 +20,19 @@ Personal Home Manager flake setup for multiple machines (macOS + Linux).
 .
 ├─ flake.nix
 ├─ home/
-│  ├─ shared.nix                # shared config for all environments
-│  ├─ shared-linux.nix          # linux specific
-│  ├─ aarch64-darwin.nix        # MacOS specific
-│  ├─ x86_64-linux.nix
-│  └─ aarch64-linux.nix
+│  ├─ shared.nix                # shared config and module imports
+│  ├─ modules/
+│  │  ├─ git.nix
+│  │  ├─ jujutsu.nix
+│  │  ├─ starship.nix
+│  │  └─ zsh.nix
+│  ├─ platforms/
+│  │  ├─ darwin.nix
+│  │  └─ linux.nix
+│  └─ hosts/
+│     ├─ raspberrypi.nix
+│     ├─ vili-pc.nix
+│     └─ vili-rmbp.nix
 └─ dev-flakes/
    └─ nodejs-version-pinned.nix
 ```

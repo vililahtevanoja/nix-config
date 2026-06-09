@@ -1,5 +1,4 @@
 {
-  nixpkgs,
   pkgs,
   lib,
   ...

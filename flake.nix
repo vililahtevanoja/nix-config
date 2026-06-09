@@ -58,22 +58,8 @@
         homeDirectory = "/Users/vililahtevanoja";
         modules = [
           ./home/shared.nix
-          ./home/aarch64-darwin.nix
-          (
-            { pkgs, ... }:
-            {
-              programs.zsh.shellAliases = {
-                k = "kiro-cli";
-                ka = "kiro-cli --agent";
-                kp = "kiro-cli --agent plan";
-              };
-
-              home.packages = with pkgs; [
-                terraform-ls
-                confluent-cli
-              ];
-            }
-          )
+          ./home/platforms/darwin.nix
+          ./home/hosts/vili-rmbp.nix
         ];
       };
       homeConfigurations."vili@ViliPC" = mkHome {
@@ -82,8 +68,8 @@
         homeDirectory = "/home/vili";
         modules = [
           ./home/shared.nix
-          ./home/shared-linux.nix
-          ./home/x86_64-linux.nix
+          ./home/platforms/linux.nix
+          ./home/hosts/vili-pc.nix
         ];
       };
       homeConfigurations."vili@raspberrypi" = mkHome {
@@ -92,8 +78,8 @@
         homeDirectory = "/home/vili";
         modules = [
           ./home/shared.nix
-          ./home/shared-linux.nix
-          ./home/aarch64-linux.nix
+          ./home/platforms/linux.nix
+          ./home/hosts/raspberrypi.nix
         ];
       };
     };

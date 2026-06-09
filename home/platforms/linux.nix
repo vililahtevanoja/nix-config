@@ -1,6 +1,5 @@
 {
   config,
-  pkgs,
   lib,
   ...
 }:
@@ -10,10 +9,6 @@ let
   zshBin = "${config.home.profileDirectory}/bin/zsh";
 in
 {
-  home.packages = with pkgs; [
-
-  ];
-
   home.sessionVariables = {
     # Keep child processes aligned with the Home Manager-managed zsh binary.
     SHELL = zshBin;
