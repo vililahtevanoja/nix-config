@@ -1,13 +1,12 @@
 # This is the configuration file for Ghostty.
 #
-# This template file has been automatically created at the following
-# path since Ghostty couldn't find any existing config files on your system:
+# Home Manager installs this file at:
 #
-#   /Users/vililahtevanoja/Library/Application Support/com.mitchellh.ghostty/config
+#   $XDG_CONFIG_HOME/ghostty/config.ghostty
 #
-# The template does not set any default options, since Ghostty ships
-# with sensible defaults for all options. Users should only need to set
-# options that they want to change from the default.
+# Ghostty reads that path on all platforms. On macOS, Ghostty also reads
+# $HOME/Library/Application Support/com.mitchellh.ghostty/config.ghostty
+# after the XDG path, so an unmanaged file there can override these settings.
 #
 # Run `ghostty +show-config --default --docs` to view a list of
 # all available config options and their default values.
@@ -79,4 +78,3 @@ keybind = alt+right=unbind
 keybind = global:F12=toggle_quick_terminal
 
 cursor-style = block
-

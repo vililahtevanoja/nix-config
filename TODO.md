@@ -1,4 +1,3 @@
-- [ ] figure out how to put files/glow.yml glow config file to the correct place on each platform
 - [ ] remove `cli-helpers` `doCheck = false` workaround from `home/shared.nix` once upstream builds/tests are stable
 - [ ] remove `aioboto3` `doCheck = false` workaround from `home/shared.nix` once upstream builds/tests are stable
 - [ ] remove Darwin `zsh` `sigsuspend` workaround from `home/platforms/darwin.nix` once upstream builds/tests are stable
