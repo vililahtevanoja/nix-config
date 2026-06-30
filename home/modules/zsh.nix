@@ -10,12 +10,12 @@ let
   zshDotDir = "${config.xdg.configHome}/zsh";
   zsh-patina = pkgs.rustPlatform.buildRustPackage rec {
     pname = "zsh-patina";
-    version = "1.5.1"; # Check for latest version on crates.io
+    version = "1.8.0"; # Check for latest version on crates.io
     src = pkgs.fetchCrate {
       inherit pname version;
-      hash = "sha256-Gd4nW1a6OmRWtSeE9vQ+H1Y1oyG6/fE7wFO90Z+kGjE=";
+      hash = "sha256-bG6nw4pZoSnPCkHWPb/cu8lEH55uoAd2uq9HKwuoKEc=";
     };
-    cargoHash = "sha256-bhkiSSe/z1ms6hcIU5BAczPywTmSnXhtIdKxKXyTU30=";
+    cargoHash = "sha256-4Meb4BDV/Um8/YMA5DkeNDcgCMS5cA8olKhOIq9coIU=";
     useNextest = true;
     meta = {
       description = "Zsh plugin for fast syntax highlighting";
