@@ -32,9 +32,17 @@ in
 
   fonts.fontconfig.enable = true;
 
-  xdg.enable = true;
-  xdg.configFile."glow/glow.yml".source = ../files/glow.yml;
-  xdg.configFile."ghostty/config.ghostty".source = ../files/ghostty-config;
+  xdg = {
+    enable = true;
+    configFile = {
+      "glow/glow.yml" = {
+        source = ../files/glow.yml;
+      };
+      "ghostty/config.ghostty" = {
+        source = ../files/ghostty-config;
+      };
+    };
+  };
 
   home.packages = with pkgs; [
     # general tools
