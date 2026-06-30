@@ -21,24 +21,6 @@ in
     '';
   };
 
-  nixpkgs.overlays = [
-    # Temporary workaround: cli-helpers tests currently fail on Darwin/Python 3.13,
-    # which breaks pgcli transitively during Home Manager builds.
-    (final: prev: {
-      # fix for zsh hangs on Darwin, e.g. direnv tests would hang without this
-      # ref: https://github.com/NixOS/nixpkgs/issues/513019 & https://github.com/NixOS/nixpkgs/issues/513543
-      # fixed in:  https://github.com/NixOS/nixpkgs/pull/513971 (https://nixpk.gs/pr-tracker.html?pr=513971)
-      zsh = prev.zsh.overrideAttrs (
-        old:
-        prev.lib.optionalAttrs prev.stdenv.isDarwin {
-          preConfigure = (old.preConfigure or "") + ''
-            export zsh_cv_sys_sigsuspend=yes
-          '';
-        }
-      );
-    })
-  ];
-
   # macOS (Apple Silicon) specific packages
   home.packages = with pkgs; [
     colima
