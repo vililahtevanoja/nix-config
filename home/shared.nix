@@ -120,7 +120,7 @@ in
     codex
     claude-code
     github-copilot-cli
-    gemini-cli-bin
+    gemini-cli
 
     # document tools
     pandoc

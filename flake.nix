@@ -22,7 +22,6 @@
         "claude-code"
         "confluent-cli"
         "github-copilot-cli"
-        "kiro-cli"
       ];
       mkPkgs =
         system:
