@@ -76,7 +76,7 @@ in
     diff-so-fancy
 
     # reproducible development environments
-    devenv
+    mise
 
     # multiplexing
     zellij
@@ -110,10 +110,11 @@ in
     # nix
     nixfmt
     nh
-    # mcp-nixos # currently not working, try again later
+    mcp-nixos # currently not working, try again later
 
     # zsh
     zsh-fzf-tab
+    zsh-patina
 
     # LLM
     opencode

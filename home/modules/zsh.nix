@@ -8,20 +8,6 @@
 
 let
   zshDotDir = "${config.xdg.configHome}/zsh";
-  zsh-patina = pkgs.rustPlatform.buildRustPackage rec {
-    pname = "zsh-patina";
-    version = "1.8.0"; # Check for latest version on crates.io
-    src = pkgs.fetchCrate {
-      inherit pname version;
-      hash = "sha256-bG6nw4pZoSnPCkHWPb/cu8lEH55uoAd2uq9HKwuoKEc=";
-    };
-    cargoHash = "sha256-4Meb4BDV/Um8/YMA5DkeNDcgCMS5cA8olKhOIq9coIU=";
-    useNextest = true;
-    meta = {
-      description = "Zsh plugin for fast syntax highlighting";
-      mainProgram = "zsh-patina";
-    };
-  };
 in
 {
   home.sessionVariables = {
@@ -121,7 +107,7 @@ in
       # enable zsh-patina (fast zsh highlighter)
       ''
         # Reference the executable directly
-        eval "$(${lib.getExe zsh-patina} activate)"
+        eval "$(${lib.getExe pkgs.zsh-patina} activate)"
       ''
       ''
         path+=("${config.home.homeDirectory}/.local/bin")
