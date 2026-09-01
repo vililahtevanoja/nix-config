@@ -66,6 +66,7 @@ in
     bat
     tree
     htop
+    go-task
 
     # editors
     helix
