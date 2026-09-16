@@ -103,7 +103,7 @@ in
     rustup
     nodejs_24
     pnpm
-    typescript-go
+    typescript
     python314
     uv
     ruff
