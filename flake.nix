@@ -51,6 +51,13 @@
         };
     in
     {
+      nixosConfigurations.raspberrypi = unstable.lib.nixosSystem {
+        modules = [
+          "${unstable}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
+          ./hosts/raspberrypi.nix
+        ];
+      };
+
       homeConfigurations."vililahtevanoja@vili-rmbp" = mkHome {
         system = "aarch64-darwin";
         username = "vililahtevanoja";
