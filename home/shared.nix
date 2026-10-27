@@ -111,7 +111,14 @@ in
     # nix
     nixfmt
     nh
-    mcp-nixos # currently not working, try again later
+    (mcp-nixos.override {
+      # FastMCP 3.4.7 is incompatible with MCP SDK 2.x.
+      python3Packages = python3Packages.overrideScope (
+        _: prev: {
+          mcp = prev.mcp_1;
+        }
+      );
+    })
 
     # zsh
     zsh-fzf-tab

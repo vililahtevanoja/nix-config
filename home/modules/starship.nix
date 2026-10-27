@@ -12,7 +12,10 @@
         allowed_msg = "[✓](green)";
       };
       vcs = {
-        order = ["jj" "git"];
+        order = [
+          "jj"
+          "git"
+        ];
         jj_modules = "$jj_bookmark$jj_change$jj_metrics$jj_status";
       };
       # based on https://starship.rs/config/#default-prompt-format
