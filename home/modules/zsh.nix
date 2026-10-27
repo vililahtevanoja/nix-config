@@ -83,10 +83,18 @@ in
       ''
         source <(COMPLETE=zsh ${lib.getExe pkgs.jujutsu})
       ''
-      # fix Home and End button behavior
+      # fix Home, End, and Delete button behavior
       ''
         bindkey '^[[H' beginning-of-line
         bindkey '^[[F' end-of-line
+        bindkey '^[[3~' delete-char
+        bindkey -M vicmd '^[[3~' delete-char
+      ''
+      # Consume F12 so its escape sequence cannot enter vi command mode.
+      ''
+        ignore-f12() { :; }
+        zle -N ignore-f12
+        bindkey '^[[24~' ignore-f12
       ''
       # utility functions
       ''
