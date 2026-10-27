@@ -1,5 +1,24 @@
 {
   "nodes": {
+    "bifrost": {
+      "inputs": {
+        "nixpkgs": "nixpkgs"
+      },
+      "locked": {
+        "lastModified": 1792539171,
+        "narHash": "sha256-qkAn7D/fZkCumpwjD11gSF5MSUKZqQ2/HojYxJJJcCg=",
+        "owner": "maximhq",
+        "repo": "bifrost",
+        "rev": "a05ea20e68bf116a35e9f05b1a3d749624b3935e",
+        "type": "github"
+      },
+      "original": {
+        "owner": "maximhq",
+        "ref": "transports/v2.3.2",
+        "repo": "bifrost",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "inputs": {
         "systems": "systems"
@@ -20,7 +39,7 @@
     },
     "home-manager": {
       "inputs": {
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs_2"
       },
       "locked": {
         "lastModified": 1793033486,
@@ -38,6 +57,22 @@
     },
     "nixpkgs": {
       "locked": {
+        "lastModified": 1790770502,
+        "narHash": "sha256-K6aEmc42rabneVvXpLcuAkL8fQYlvdOnJxvwpOASeK0=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "fcabd0f179ff88230c3ba6828f78a5a0e1dcdc30",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "ref": "staging-next",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_2": {
+      "locked": {
         "lastModified": 1790299684,
         "narHash": "sha256-iK8TZqVFap2LJEfmSr4VcV5jZ1DWqEyJEh0QerRX6JE=",
         "rev": "7d5589bbf421c7b6f4185371abe3c465b1b557e9",
@@ -49,7 +84,7 @@
         "url": "https://channels.nixos.org/nixpkgs-unstable/nixexprs.tar.zst"
       }
     },
-    "nixpkgs_2": {
+    "nixpkgs_3": {
       "locked": {
         "lastModified": 1793121019,
         "narHash": "sha256-qjqHKvl4QlH4E/QnfPDU4u26B90zug8vlWtIFp3ZVx4=",
@@ -66,9 +101,10 @@
     },
     "root": {
       "inputs": {
+        "bifrost": "bifrost",
         "flake-utils": "flake-utils",
         "home-manager": "home-manager",
-        "nixpkgs": "nixpkgs_2",
+        "nixpkgs": "nixpkgs_3",
         "unstable": "unstable"
       }
     },

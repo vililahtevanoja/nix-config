@@ -6,6 +6,7 @@
     unstable.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
     flake-utils.url = "github:numtide/flake-utils";
     home-manager.url = "github:nix-community/home-manager";
+    bifrost.url = "github:maximhq/bifrost?ref=transports/v2.3.2";
   };
 
   outputs =
@@ -15,6 +16,7 @@
       unstable,
       home-manager,
       flake-utils,
+      bifrost,
       ...
     }:
     let
@@ -52,8 +54,10 @@
     in
     {
       nixosConfigurations.raspberrypi = unstable.lib.nixosSystem {
+        specialArgs = { inherit bifrost; };
         modules = [
           "${unstable}/nixos/modules/installer/sd-card/sd-image-aarch64.nix"
+          bifrost.nixosModules.bifrost
           ./hosts/raspberrypi.nix
         ];
       };
