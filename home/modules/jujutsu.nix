@@ -13,6 +13,7 @@
         # using difftastic for now
         diff-formatter = [
           (lib.getExe pkgs.difftastic)
+          "--width=$width"
           "--color=always"
           "$left"
           "$right"
